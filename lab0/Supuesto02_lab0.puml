@@ -1,0 +1,87 @@
+@startuml
+left to right direction
+
+skinparam packageStyle rectangle
+skinparam actorStyle stickman
+skinparam shadowing false
+
+actor Usuario
+actor Comprador
+actor Vendedor
+actor Proveedor
+actor Administrador
+
+Comprador --|> Usuario
+Vendedor --|> Usuario
+Proveedor --|> Usuario
+Administrador --|> Usuario
+
+rectangle "Sistema de Compras" {
+
+    usecase "Consultar ofertas" as UC_ConsultarOfertas
+    usecase "Consultar precios" as UC_ConsultarPrecios
+    usecase "Buscar productos" as UC_BuscarProductos
+
+    usecase "Agregar productos" as UC_AgregarProductos
+    usecase "Marcar productos\ncomo bloqueados" as UC_BloquearProductos
+
+    usecase "Consultar productos" as UC_ConsultarProductos
+    usecase "Verificar disponibilidad" as UC_VerificarDisponibilidad
+
+    usecase "Realizar compraventa" as UC_RealizarCompraVenta
+    usecase "Acordar precio" as UC_AcordarPrecio
+    usecase "Consultar histórico\nde ventas" as UC_HistoricoVentas
+
+    usecase "Avisar de nuevos\nproductos" as UC_AvisarNuevos
+    usecase "Incorporar oferta" as UC_IncorporarOferta
+
+    usecase "Avisar del fin\nde una oferta" as UC_AvisarFin
+    usecase "Eliminar oferta" as UC_EliminarOferta
+
+    usecase "Avisar" as UC_Avisar
+    usecase "Enviar notificación" as UC_EnviarNotificacion
+
+    usecase "Eliminar productos" as UC_EliminarProductos
+}
+
+' Funcionalidades comunes
+Usuario -- UC_ConsultarOfertas
+Usuario -- UC_ConsultarPrecios
+
+' Funcionalidades del comprador
+Comprador -- UC_AgregarProductos
+Comprador -- UC_ConsultarProductos
+Comprador -- UC_RealizarCompraVenta
+
+' Funcionalidades del vendedor
+Vendedor -- UC_RealizarCompraVenta
+
+' Funcionalidades del proveedor
+Proveedor -- UC_AvisarNuevos
+Proveedor -- UC_AvisarFin
+
+' Funcionalidades del administrador
+Administrador -- UC_EliminarProductos
+
+' Consulta y búsqueda de productos
+UC_ConsultarPrecios ..> UC_BuscarProductos : <<include>>
+UC_ConsultarProductos --|> UC_BuscarProductos
+UC_ConsultarProductos ..> UC_VerificarDisponibilidad : <<include>>
+
+' Agregar productos
+UC_AgregarProductos ..> UC_BloquearProductos : <<include>>
+
+' Compra y venta
+UC_RealizarCompraVenta ..> UC_AcordarPrecio : <<include>>
+UC_HistoricoVentas ..> UC_RealizarCompraVenta : <<extend>>
+
+' Avisos del proveedor
+UC_IncorporarOferta ..> UC_AvisarNuevos : <<extend>>
+
+UC_AvisarNuevos --|> UC_Avisar
+UC_AvisarFin --|> UC_Avisar
+UC_Avisar ..> UC_EnviarNotificacion : <<include>>
+
+UC_AvisarFin ..> UC_EliminarOferta : <<include>>
+
+@enduml
