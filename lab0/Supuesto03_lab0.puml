@@ -1,0 +1,48 @@
+@startuml
+left to right direction
+
+actor Usuario as usuario
+actor Empleado as empleado
+actor Cliente as cliente
+actor Administrador as admin
+actor Comercial as comercial
+
+cliente -up-|> usuario
+empleado -up-|> usuario
+admin -up-|> empleado
+comercial -up-|> empleado
+
+usecase "Consultar reservas" as consultar_reservas
+usecase "Realizar ofertas" as realizar_ofertas
+usecase "Gestionar nuevas reservas" as gestionar_reservas
+usecase "Gestionar nuevas peticiones" as gestionar_peticiones
+usecase "Consultar disponibilidades" as consultar_disponibilidades
+usecase "Visualizar ofertas" as visualizar_ofertas
+
+
+usecase "Recálculo de precios" as recalculo_precios
+usecase "Bloqueo temporal de reserva" as bloqueo_reserva
+usecase "Buscar elementos" as buscar_elementos
+usecase "Mostrar calendario" as mostrar_calendario
+
+
+usuario -- consultar_disponibilidades
+usuario -- visualizar_ofertas
+
+
+empleado -- consultar_reservas
+empleado -- realizar_ofertas
+
+
+admin -- gestionar_peticiones
+comercial -- gestionar_reservas
+
+
+realizar_ofertas ..> recalculo_precios : <<include>>
+consultar_disponibilidades ..> buscar_elementos : <<include>>
+consultar_reservas ..> buscar_elementos : <<include>>
+consultar_disponibilidades ..> mostrar_calendario : <<include>>
+
+bloqueo_reserva ..> realizar_ofertas : <<extend>>
+
+@enduml
