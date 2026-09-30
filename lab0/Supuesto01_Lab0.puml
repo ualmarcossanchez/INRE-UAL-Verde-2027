@@ -1,0 +1,39 @@
+@startuml
+left to right direction
+
+' Definición de Actores
+actor "Usuario" as usuario
+actor "PAS" as pas
+actor "PDI" as pdi
+actor "Estudiante" as estudiante
+
+' Relaciones de herencia (Generalización)
+pas -up-|> usuario
+pdi -up-|> usuario
+estudiante -up-|> usuario
+
+' Definición de Casos de Uso y Relaciones
+
+' Casos de uso de Usuario general
+usecase "Consultar horarios" as consultar_horarios
+usuario -- consultar_horarios
+
+' Casos de uso de PAS
+usecase "mod horarios" as mod_horarios
+usecase "dar de alta" as dar_de_alta
+usecase "verificar datos" as verificar_datos
+
+pas -- mod_horarios
+pas -- dar_de_alta
+dar_de_alta ..> verificar_datos : <<include>>
+
+' Casos de uso de PDI
+usecase "dar de alta PDI" as dar_alta_pdi
+usecase "proponer cambios" as proponer_cambios
+usecase "realizar búsqueda\nen listas" as realizar_busqueda
+
+pdi -- proponer_cambios
+pdi -- dar_alta_pdi
+realizar_busqueda ..> dar_alta_pdi : <<extend>>
+
+@enduml
