@@ -1,0 +1,73 @@
+@startuml
+left to right direction
+skinparam packageStyle rectangle
+
+actor "Cliente" as Cliente
+actor "Vendedor" as Vendedor
+actor "Controlador de fotos" as Controlador
+actor "Gestor de la aplicación" as Gestor
+actor "Administrador" as Admin
+actor "Software de facturación" as SoftFact
+actor "Gestor de correo" as Correo
+
+rectangle "Aplicación de fotografía online" {
+  usecase "Visualizar fotos\n----\nExtension points\nDenunciar foto" as Visualizar
+  usecase "Consultar foto" as Consultar
+  usecase "Buscar detalles" as Buscar
+  usecase "Verificar datos" as Verificar
+  usecase "Denunciar foto" as Denunciar
+  usecase "Explicar denuncia" as Explicar
+  usecase "Indicar foto a revisar" as Indicar
+  usecase "Editar info fotos" as EditarFotos
+
+  usecase "Hacer oferta\n----\nExtension points\nReducir precio" as Hacer
+  usecase "Reducir precio" as Reducir
+  usecase "Ver ofertas" as VerOfertas
+  usecase "Ver ofertas (cliente)" as VerOfertasCli
+  usecase "Bloquear ofertas" as Bloquear
+
+  usecase "Emitir facturas" as Emitir
+  usecase "Editar facturas" as EditarFact
+  usecase "Editar datos" as EditarDatos
+  usecase "Editar usuarios" as EditarUsu
+  usecase "Crear usuarios" as Crear
+  usecase "Enviar email" as Email
+}
+
+' Asociaciones actor - caso de uso
+Cliente -- Visualizar
+Cliente -- Consultar
+Cliente -- VerOfertasCli
+Vendedor -- Hacer
+Vendedor -- Buscar
+Controlador -- Indicar
+Controlador -- EditarFotos
+Gestor -- VerOfertas
+Gestor -- Bloquear
+Gestor -- Emitir
+Gestor -- EditarFact
+Admin -- Crear
+Admin -- EditarUsu
+Emitir -- SoftFact
+Email -- Correo
+
+' Generalización de actores
+Admin --|> Gestor
+
+' Generalización de casos de uso
+Consultar --|> Visualizar
+Buscar --|> Visualizar
+Denunciar --|> Indicar
+VerOfertasCli --|> VerOfertas
+EditarUsu --|> EditarDatos
+Emitir --|> EditarDatos
+
+' Extend
+Denunciar ..> Visualizar : <<extend>>
+Reducir ..> Hacer : <<extend>>
+
+' Include
+Denunciar ..> Explicar : <<include>>
+Buscar ..> Verificar : <<include>>
+Crear ..> Email : <<include>>
+@enduml
