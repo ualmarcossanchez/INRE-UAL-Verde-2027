@@ -1,109 +1,124 @@
-@startuml
-left to right direction
-skinparam packageStyle rectangle
-skinparam shadowing false
-skinparam actor {
-    BackgroundColor #E2EFDA
-    BorderColor #385723
-}
-skinparam usecase {
-    BackgroundColor #F2F2F2
-    BorderColor #595959
-}
+@startuml Sistema_de_Gestion_de_Incidencias
 
-' --- ACTORES IZQUIERDA ---
-actor "Usuario\nInvitado" as UsuarioInvitado
+top to bottom direction
+
+' ==========================================
+' ACTORES
+' ==========================================
+actor "Usuario Invitado" as UsuarioInvitado
 actor "Empleado" as Empleado
 actor "Administrador" as Administrador
 actor "Técnico" as Tecnico
 actor "Operador" as Operador
-actor "Empleado\nmenor" as EmpleadoMenor
+actor "Empleado menor" as EmpleadoMenor
+actor "Sistema de Gestión de Correo" as SistemaCorreo << System >>
 
-' --- ACTOR DERECHA ---
-actor "Sistema de Gestión\nde Correo" as SistemaCorreo <<System>>
+' Alineación de actores
+UsuarioInvitado -[hidden]down-> Empleado
+Empleado -[hidden]down-> Tecnico
+Tecnico -[hidden]down-> EmpleadoMenor
 
-' --- HERENCIA DE ACTORES ---
+Administrador -[hidden]down-> Operador
+Operador -[hidden]down-> SistemaCorreo
+
+' Herencia entre actores
 Administrador --|> Empleado
 Tecnico --|> Empleado
 Operador --|> Empleado
-
 Tecnico --|> EmpleadoMenor
 Operador --|> EmpleadoMenor
 
-' --- SISTEMA PRINCIPAL ---
+' ==========================================
+' SISTEMA Y CASOS DE USO
+' ==========================================
 rectangle "Sistema de Gestión de Incidencias" {
 
-    ' Bloque Usuario Invitado
+    ' --- Fila 1: Alta de datos de incidencia ---
+    usecase "Dar de alta localización\nen un mapa" as UC_Mapa
+    usecase "Explicación completa\nFormato textual" as UC_Texto
+    usecase "Subir foto" as UC_Foto
+    usecase "Adición de comentario" as UC_AdicionComentario
+
+    ' --- Fila 2: Casos de Uso Principales de usuario y admin ---
     usecase "Informar sobre\nposible incidencia" as UC_Informar
-    usecase "Dar de alta localización\nen un mapa" as UC_DarAltaMap
-    usecase "Explicación completa\nFormato textual" as UC_Explicacion
-    usecase "Subida foto" as UC_SubidaFoto
     usecase "Registrarse" as UC_Registrarse
-    usecase "Ver notificaciones" as UC_VerNotif
-    usecase "Acceder histórico\nnotificaciones" as UC_AccederHist
-    usecase "Consultar incidencia\nusuario" as UC_ConsultarUsuario
-
-    ' Bloque Consultas y Edición (Empleado)
-    usecase "Consultar incidencia\n--\n<<Extend point>>\nEdición datos incidencia" as UC_ConsultarIncidencia
-    usecase "Edición datos\nincidencia" as UC_EdicionDatos
-
-    ' Bloque Atención Telefónica
-    usecase "Atender llamada\ntelefónica" as UC_AtenderLlamada
-    usecase "Atender llamada\ntelefónica técnico\n--\n<<Extend point>>\nComprobar dato de incidencia" as UC_AtenderTecnico
-    usecase "Atender llamada\ntelefónica operador" as UC_AtenderOperador
-    usecase "Comprobar dato\nde incidencia" as UC_ComprobarDato
-    usecase "Introducir nuevo dato\nde incidencia" as UC_IntroducirDato
-
-    ' Bloque Administrador / Técnico / Operador
     usecase "Gestionar categoría\nincidencia" as UC_GestionarCat
     usecase "Ordenar incidencia\nadministrador" as UC_OrdenarAdmin
-    usecase "Adición de comentario" as UC_AdicionComentario
-    usecase "Ordenar incidencia" as UC_Ordenar
-    usecase "Realizar informe\nde incidencias" as UC_RealizarInforme
-    usecase "Marcar incidencia\nduplicada" as UC_MarcarDup
 
-    ' Bloque Empleado Menor y Correo
-    usecase "Dar de alta\nincidencia\n--\n<<Extend point>>\nEnviar correo" as UC_DarAltaIncidencia
+    ' --- Fila 3: Consultas y Notificaciones ---
+    usecase "Ver notificaciones" as UC_Notificaciones
+    usecase "Acceder histórico\nnotificaciones" as UC_Historico
+    usecase "Consultar incidencia\nusuario" as UC_ConsultarUsuario
+    usecase "Consultar incidencia\n--\n<<Extend point>>\nEdición datos incidencia" as UC_Consultar
+    usecase "Edición datos\nincidencia" as UC_Edicion
+
+    ' --- Fila 4: Atención Telefónica e Informes ---
+    usecase "Realizar informe\nde incidencias" as UC_Informe
+    usecase "Atender llamada\ntelefónica" as UC_AtenderLlamada
+    usecase "Comprobar dato\nde incidencia" as UC_ComprobarDato
+    usecase "Atender llamada\ntelefónica técnico\n--\n<<Extend point>>\nComprobar dato de incidencia" as UC_AtenderLlamadaTecnico
+    usecase "Atender llamada\ntelefónica operador" as UC_AtenderLlamadaOperador
+    usecase "Introducir nuevo dato\nde incidencia" as UC_IntroducirDato
+
+    ' --- Fila 5: Operaciones Operador y Envíos ---
+    usecase "Ordenar incidencia" as UC_Ordenar
+    usecase "Marcar incidencia\nduplicada" as UC_MarcarDuplicada
+    usecase "Dar de alta\nincidencia\n--\n<<Extend point>>\nEnviar correo" as UC_AltaIncidencia
     usecase "Enviar correo" as UC_EnviarCorreo
+
+    ' --- Enlaces ocultos para estructurar la rejilla interna ---
+    UC_Mapa -[hidden]right- UC_Texto
+    UC_Texto -[hidden]right- UC_Foto
+    UC_Informar -[hidden]down- UC_Notificaciones
+    UC_Notificaciones -[hidden]down- UC_AtenderLlamadaTecnico
+    UC_AtenderLlamadaTecnico -[hidden]down- UC_AltaIncidencia
+    UC_OrdenarAdmin -[hidden]down- UC_Ordenar
 }
 
-' --- RELACIONES Y ALINEACIÓN ---
+' ==========================================
+' RELACIONES
+' ==========================================
 
 ' Usuario Invitado
-UsuarioInvitado --> UC_Informar
-UsuarioInvitado --> UC_VerNotif
-UsuarioInvitado --> UC_AccederHist
-UsuarioInvitado --> UC_ConsultarUsuario
+UsuarioInvitado -- UC_Informar
+UsuarioInvitado -- UC_Notificaciones
+UsuarioInvitado -- UC_Historico
+UsuarioInvitado -- UC_ConsultarUsuario
 
-UC_DarAltaMap .down.> UC_Informar : <<extend>>
-UC_Explicacion .down.> UC_Informar : <<extend>>
-UC_SubidaFoto .down.> UC_Informar : <<extend>>
+' Inclusiones desde Informar sobre posible incidencia
+UC_Informar .up.> UC_Mapa : <<include>>
+UC_Informar .up.> UC_Texto : <<include>>
+UC_Informar .up.> UC_Foto : <<include>>
 UC_Informar .right.> UC_Registrarse : <<include>>
+UC_Notificaciones .right.> UC_Registrarse : <<include>>
 
-' Empleado
-Empleado --> UC_ConsultarIncidencia
-Empleado --> UC_AtenderLlamada
-UC_EdicionDatos .left.> UC_ConsultarIncidencia : <<extend>>
+' Empleado y Administrador
+Empleado -- UC_Consultar
+UC_Edicion .right.> UC_Consultar : <<extend>>
 
-' Atención telefónica (Herencia y extensiones)
-UC_AtenderLlamada <|-- UC_AtenderTecnico
-UC_AtenderLlamada <|-- UC_AtenderOperador
-UC_ComprobarDato .left.> UC_AtenderTecnico : <<extend>>
-UC_IntroducirDato .left.> UC_AtenderOperador : <<include>>
+Administrador -- UC_GestionarCat
+Administrador -- UC_OrdenarAdmin
+UC_OrdenarAdmin .up.> UC_AdicionComentario : <<include>>
+UC_OrdenarAdmin --|> UC_Ordenar
 
-' Administrador
-Administrador --> UC_GestionarCat
-Administrador --> UC_OrdenarAdmin
-UC_AdicionComentario .left.> UC_OrdenarAdmin : <<extend>>
-UC_OrdenarAdmin --> UC_Ordenar
+' Operador
+Operador -- UC_Ordenar
+Operador -- UC_MarcarDuplicada
+Operador -- UC_AtenderLlamadaOperador
 
-' Técnico y Operador
-Tecnico --> UC_RealizarInforme
-Operador --> UC_Ordenar
-Operador --> UC_MarcarDup
+' Técnico
+Tecnico -- UC_Informe
+Tecnico -- UC_AtenderLlamadaTecnico
 
-' Empleado Menor y Correo Externo
-EmpleadoMenor --> UC_DarAltaIncidencia
-UC_EnviarCorreo .left.> UC_DarAltaIncidencia : <<extend>>
-UC_EnviarCorreo --> SistemaCorreo
+' Especialización de llamadas telefónicas e Inclusiones/Extensiones
+UC_AtenderLlamadaTecnico --|> UC_AtenderLlamada
+UC_AtenderLlamadaOperador --|> UC_AtenderLlamada
+UC_ComprobarDato .right.> UC_AtenderLlamadaTecnico : <<extend>>
+UC_AtenderLlamadaOperador .down.> UC_IntroducirDato : <<include>>
+
+' Empleado menor y Sistema Externo
+EmpleadoMenor -- UC_AltaIncidencia
+UC_EnviarCorreo .left.> UC_AltaIncidencia : <<extend>>
+UC_EnviarCorreo -- SistemaCorreo
+
 @enduml
