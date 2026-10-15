@@ -1,6 +1,5 @@
 # Supuesto 3
 
-### Opción 1: Tabla en Markdown estándar (2 columnas)
 
 | **Actor** | **Usuario** (**ACT 001**) |
 | :--- | :--- |
