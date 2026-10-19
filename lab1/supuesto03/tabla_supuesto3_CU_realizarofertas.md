@@ -1,16 +1,3 @@
-# Guía: Especificación Formal de Casos de Uso
-
-La plantilla "versión formal" de tu PDF desglosa el comportamiento paso a paso. Para rellenarla correctamente basándonos en tu diagrama, la clave está en cómo traducir las flechas del dibujo a texto:
-
-1.  **Actores (`Empleado`):** Como en tu diagrama el *Administrador* y el *Comercial* heredan de *Empleado*, y es este último quien apunta a "Realizar ofertas", el actor principal del escenario es el Empleado.
-2.  **Relaciones `<<include>>` (Recálculo de precios):** Como es un comportamiento obligatorio, se invoca directamente como **un paso más dentro del Escenario principal**.
-3.  **Relaciones `<<extend>>` (Bloqueo temporal de reserva):** Como es un comportamiento opcional, se saca del flujo principal y se coloca en el apartado de **Alternativas**.
-
-A continuación tienes la tabla Markdown construida exactamente con los campos de tu plantilla para este ejemplo.
-
----
-
-### Ejemplo: CU-004 Realizar ofertas
 
 | **CU-004** | **Realizar ofertas** |
 | :--- | :--- |
