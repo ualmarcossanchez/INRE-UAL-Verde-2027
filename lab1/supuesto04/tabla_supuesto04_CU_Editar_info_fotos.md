@@ -1,4 +1,5 @@
 | **Nombre:** | **Editar info fotos (UC-18)** |
+|---|---|
 | **Autor:** | Javier Zúñiga Carmona |
 | **Fecha:** | 19/10/2026 |
 | **Descripción:** | Permite al controlador de fotos editar la información asociada a las fotos de la aplicación. |
