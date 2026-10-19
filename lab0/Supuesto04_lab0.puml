@@ -1,7 +1,6 @@
 @startuml
 left to right direction
 
-' Definición de Actores
 actor "Gestor de la aplicación" as gestor
 actor "Administrador" as admin
 actor "Cliente" as cliente
@@ -10,12 +9,8 @@ actor "Controlador de fotos" as controlador
 actor "Software de facturación" as soft_facturacion
 actor "Gestor de correo" as gestor_correo
 
-' Relaciones de herencia (Generalización)
 admin -up-|> gestor
 
-' Definición de Casos de Uso y Relaciones
-
-' Casos de uso de Cliente
 usecase "Visualizar fotos\n----\nExtension points\nDenunciar foto" as visualizar_fotos
 usecase "Consultar foto" as consultar_foto
 usecase "Denunciar foto" as denunciar_foto
@@ -29,7 +24,6 @@ consultar_foto -up-|> visualizar_fotos
 denunciar_foto ..> visualizar_fotos : <<extend>>
 denunciar_foto ..> explicar_denuncia : <<include>>
 
-' Casos de uso de Controlador de fotos
 usecase "Indicar foto a revisar" as indicar_foto
 usecase "Editar info fotos" as editar_info_fotos
 
@@ -37,7 +31,6 @@ controlador -- indicar_foto
 controlador -- editar_info_fotos
 denunciar_foto -up-|> indicar_foto
 
-' Casos de uso de Vendedor
 usecase "Hacer oferta\n----\nExtension points\nReducir precio" as hacer_oferta
 usecase "Reducir precio" as reducir_precio
 usecase "Buscar detalles" as buscar_detalles
@@ -49,7 +42,6 @@ reducir_precio ..> hacer_oferta : <<extend>>
 buscar_detalles -up-|> visualizar_fotos
 buscar_detalles ..> verificar_datos : <<include>>
 
-' Casos de uso de Gestor de la aplicación
 usecase "Ver ofertas" as ver_ofertas
 usecase "Bloquear ofertas" as bloquear_ofertas
 usecase "Emitir facturas" as emitir_facturas
@@ -61,10 +53,9 @@ gestor -- bloquear_ofertas
 gestor -- emitir_facturas
 gestor -- editar_facturas
 ver_ofertas_cliente -up-|> ver_ofertas
-emitir_facturas -up-|> editar_datos
+editar_facturas -up-|> editar_datos
 emitir_facturas -- soft_facturacion
 
-' Casos de uso de Administrador
 usecase "Crear usuarios" as crear_usuarios
 usecase "Editar usuarios" as editar_usuarios
 usecase "Enviar email" as enviar_email
@@ -74,5 +65,4 @@ admin -- editar_usuarios
 editar_usuarios -up-|> editar_datos
 crear_usuarios ..> enviar_email : <<include>>
 enviar_email -- gestor_correo
-
 @enduml
