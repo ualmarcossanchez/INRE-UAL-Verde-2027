@@ -1,0 +1,20 @@
+### CU-008: Mostrar calendario
+
+| **CU-008** | **Mostrar calendario** |
+| :--- | :--- |
+| **Versión** | 1.0 (Octubre-2026) |
+| **Autores<br>Fuentes** | Marcos Sánchez García<br>Enunciado del diagrama de casos de uso |
+| **Referencias** | • Incluido por (`<<include>>`): Consultar disponibilidades (CU-001) |
+| **Descripción** | El sistema deberá generar y renderizar una interfaz visual en forma de calendario interactivo para facilitar la lectura de la ocupación hotelera. |
+| **Evento activación** | Se invoca automáticamente cuando un usuario accede a la funcionalidad de consultar disponibilidades. |
+| **Pre condición** | Ninguna explícita, se hereda del caso base. |
+| **Post condición** | El calendario se muestra en pantalla. No hay actualización de datos. |
+| **Resultados** | Visualización gráfica estructurada por meses y días. |
+| **Esc. principal** | 1. El sistema recupera los datos de ocupación y disponibilidad para el periodo actual.<br>2. El sistema mapea estos datos sobre una cuadrícula mensual.<br>3. Se renderiza el calendario aplicando marcas de colores o iconos según el estado (libre, ocupado, bloqueado).<br>4. El sistema presenta el calendario terminado al usuario en pantalla. |
+| **Alternativas** | Ninguna |
+| **Excepciones** | Ninguna |
+| **Importancia** | Media |
+| **Estado** | Aceptado |
+| **Comentarios** | Mejora la experiencia de usuario (UX) haciendo la lectura de fechas intuitiva. |
+
+---
