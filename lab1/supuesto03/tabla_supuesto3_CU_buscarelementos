@@ -1,0 +1,20 @@
+### CU-007: Buscar elementos
+
+| **CU-007** | **Buscar elementos** |
+| :--- | :--- |
+| **Versión** | 1.0 (Octubre-2026) |
+| **Autores<br>Fuentes** | Marcos Sánchez García<br>Enunciado del diagrama de casos de uso |
+| **Referencias** | • Incluido por (`<<include>>`): Consultar disponibilidades (CU-001)<br>• Incluido por (`<<include>>`): Consultar reservas (CU-003) |
+| **Descripción** | El sistema deberá proporcionar un mecanismo de filtrado (buscador) común que permita al usuario encontrar información específica tanto en las disponibilidades como en el registro de reservas. |
+| **Evento activación** | El usuario (desde la consulta de disponibilidades o de reservas) introduce un texto o criterio en el buscador. |
+| **Pre condición** | El usuario debe haber invocado previamente un caso de uso que incluya esta funcionalidad. |
+| **Post condición** | Se filtra la vista actual en la pantalla del usuario. No se alteran datos. |
+| **Resultados** | Listado de resultados en pantalla que coinciden exactamente con los criterios de búsqueda. |
+| **Esc. principal** | 1. El sistema habilita la barra de búsqueda y filtros.<br>2. El usuario introduce los parámetros deseados (ej. nombre, localizador, fechas).<br>3. El sistema consulta internamente los registros.<br>4. El sistema actualiza la pantalla mostrando solo los elementos coincidentes. |
+| **Alternativas** | Ninguna |
+| **Excepciones** | **Al paso 4:**<br>1. No hay coincidencias para el criterio introducido.<br>2. El sistema muestra el mensaje "No se encontraron resultados" y deja la lista en blanco. |
+| **Importancia** | Muy importante |
+| **Estado** | Aceptado |
+| **Comentarios** | Es un caso de uso interno reutilizable, no es iniciado de forma aislada por un actor. |
+
+---
