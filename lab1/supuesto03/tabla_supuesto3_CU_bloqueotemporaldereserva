@@ -1,0 +1,18 @@
+### CU-010: Bloqueo temporal de reserva
+
+| **CU-010** | **Bloqueo temporal de reserva** |
+| :--- | :--- |
+| **Versión** | 1.0 (Octubre-2026) |
+| **Autores<br>Fuentes** | Marcos Sánchez García<br>Enunciado del diagrama de casos de uso |
+| **Referencias** | • Extiende a (`<<extend>>`): Realizar ofertas (CU-004) |
+| **Descripción** | El sistema permitirá bloquear temporalmente una disponibilidad en el calendario para evitar que otros usuarios la reserven mientras un empleado está gestionando y realizando una oferta sobre ella. |
+| **Evento activación** | El empleado (Administrador/Comercial) decide marcar la opción de bloqueo durante la creación de una oferta. |
+| **Pre condición** | El elemento (habitación) sobre el que se realiza la oferta debe estar libre. |
+| **Post condición** | El elemento cambia su estado en el sistema a "Bloqueado" de forma temporal. |
+| **Resultados** | Se impide la asignación de esa misma habitación a otra reserva paralela temporalmente. |
+| **Esc. principal** | 1. El empleado solicita bloquear la disponibilidad de la habitación vinculada a la oferta.<br>2. El sistema solicita el tiempo de validez del bloqueo.<br>3. El empleado confirma los datos.<br>4. El sistema cambia el estado del elemento a "Bloqueado".<br>5. Se inicia un temporizador interno. |
+| **Alternativas** | **1.A. Expiración de tiempo:**<br>1. El tiempo de bloqueo finaliza sin que la reserva se haya confirmado.<br>2. El sistema libera automáticamente la habitación devolviéndola al estado "Disponible". |
+| **Excepciones** | **Al paso 4:**<br>1. El sistema detecta que el elemento acaba de ser reservado milisegundos antes por otro usuario.<br>2. El sistema aborta el bloqueo y avisa al empleado. |
+| **Importancia** | Alta |
+| **Estado** | Aceptado |
+| **Comentarios** | Comportamiento opcional. Si el empleado no lo solicita, la oferta se crea sin bloquear recursos. |
