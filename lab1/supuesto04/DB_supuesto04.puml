@@ -1,0 +1,277 @@
+@startuml
+
+top to bottom direction
+
+skinparam classAttributeIconSize 0
+skinparam shadowing false
+skinparam linetype ortho
+skinparam nodesep 60
+skinparam ranksep 80
+skinparam packageStyle rectangle
+
+title Diagrama de clases - Fotografía Online
+
+
+' =========================================================
+' USUARIOS Y ROLES
+' =========================================================
+
+package "Gestión de usuarios" {
+
+    class Usuario {
+        - idUsuario: int <<PK>>
+        - nombre: String
+        - email: String
+        - passwordHash: String
+        - fechaRegistro: DateTime
+        - activo: Boolean
+    }
+
+    class Rol {
+        - idRol: int <<PK>>
+        - nombre: String
+    }
+
+    class UsuarioRol {
+        - idUsuario: int <<PK, FK>>
+        - idRol: int <<PK, FK>>
+    }
+}
+
+
+' =========================================================
+' PRODUCTOS Y OFERTAS
+' =========================================================
+
+package "Gestión de ofertas" {
+
+    class Producto {
+        - idProducto: int <<PK>>
+        - nombre: String
+        - descripcion: String
+        - precio: double
+    }
+
+    class Oferta {
+        - idOferta: int <<PK>>
+        - idProducto: int <<FK>>
+        - idVendedor: int <<FK>>
+        - idCliente: int <<FK>>
+        - mensaje: String
+        - precioOferta: double
+        - fecha: DateTime
+        - estado: EstadoOferta
+        - idBloqueador: int <<FK>> {nullable}
+        - fechaBloqueo: DateTime {nullable}
+    }
+
+    enum EstadoOferta {
+        ACTIVA
+        BLOQUEADA
+    }
+}
+
+
+' =========================================================
+' FACTURACIÓN
+' =========================================================
+
+package "Gestión de facturación" {
+
+    class Factura {
+        - idFactura: int <<PK>>
+        - idEmisor: int <<FK>>
+        - idCliente: int <<FK>>
+        - numeroFactura: String
+        - fechaEmision: DateTime
+        - importeTotal: double
+        - datosFiscales: String
+        - fechaUltimaEdicion: DateTime {nullable}
+    }
+}
+
+
+' =========================================================
+' CORREO
+' =========================================================
+
+package "Gestión de correo" {
+
+    class Email {
+        - idEmail: int <<PK>>
+        - idDestinatario: int <<FK>>
+        - asunto: String
+        - cuerpo: String
+        - fechaEnvio: DateTime {nullable}
+        - enviado: Boolean
+    }
+}
+
+
+' =========================================================
+' FOTOGRAFÍAS, DENUNCIAS Y REVISIONES
+' =========================================================
+
+package "Gestión de fotografías" {
+
+    class Foto {
+        - idFoto: int <<PK>>
+        - titulo: String
+        - descripcion: String
+        - fechaSubida: DateTime
+        - estado: EstadoFoto
+    }
+
+    enum EstadoFoto {
+        VISIBLE
+        PENDIENTE_REVISION
+    }
+
+    class Denuncia {
+        - idDenuncia: int <<PK>>
+        - idFoto: int <<FK>>
+        - idCliente: int <<FK>>
+        - explicacion: String
+        - fecha: DateTime
+    }
+
+    class RevisionFoto {
+        - idRevision: int <<PK>>
+        - idFoto: int <<FK>>
+        - idControlador: int <<FK>> {nullable}
+        - idDenuncia: int <<FK>> {nullable}
+        - fechaIndicacion: DateTime
+    }
+}
+
+
+' =========================================================
+' RELACIONES DE USUARIOS Y ROLES
+' =========================================================
+
+Usuario "1" -- "0..*" UsuarioRol : idUsuario
+Rol "1" -- "0..*" UsuarioRol : idRol
+
+
+' =========================================================
+' RELACIONES DE FOTOGRAFÍAS
+' =========================================================
+
+Foto "1" -- "0..*" Denuncia : denunciada en
+
+Usuario "1" -- "0..*" Denuncia : denunciante
+
+Foto "1" -- "0..*" RevisionFoto : revisión de
+
+Usuario "0..1" -- "0..*" RevisionFoto : controlador
+
+Denuncia "0..1" -- "0..1" RevisionFoto : origina
+
+
+' =========================================================
+' RELACIONES DE OFERTAS
+' =========================================================
+
+Producto "1" -- "0..*" Oferta : sobre
+
+Usuario "1" -- "0..*" Oferta : vendedor
+
+Usuario "1" -- "0..*" Oferta : cliente
+
+Usuario "0..1" -- "0..*" Oferta : bloqueador
+
+
+' =========================================================
+' RELACIONES DE FACTURACIÓN
+' =========================================================
+
+Usuario "1" -- "0..*" Factura : emisor
+
+Usuario "1" -- "0..*" Factura : cliente
+
+
+' =========================================================
+' RELACIONES DE CORREO
+' =========================================================
+
+Usuario "1" -- "0..*" Email : destinatario
+
+
+' =========================================================
+' REGLAS DEL MODELO
+' =========================================================
+
+note bottom of Usuario
+  Los roles son: Cliente, Vendedor,
+  Controlador de fotos, Gestor y
+  Administrador.
+
+  El Administrador tiene los roles
+  del Gestor más la gestión de usuarios.
+
+  Crear usuarios genera un Email de
+  alta; editar usuarios y editar facturas
+  comparten la edición de datos.
+end note
+
+note bottom of Foto
+  VISIBLE: el cliente puede visualizar
+  y consultar la foto.
+
+  PENDIENTE_REVISION: la foto ha sido
+  denunciada o marcada por un controlador.
+
+  La búsqueda de detalles del vendedor
+  se hace sobre los datos de Foto
+  y no se almacena.
+end note
+
+note bottom of Denuncia
+  La explicación es obligatoria al
+  denunciar una foto.
+
+  Denunciar es un caso particular de
+  indicar que una foto debe revisarse:
+  la denuncia genera su RevisionFoto.
+end note
+
+note bottom of RevisionFoto
+  idControlador es nulo cuando la
+  revisión nace de una denuncia.
+
+  idDenuncia es nulo cuando el
+  controlador marca la foto por
+  iniciativa propia.
+end note
+
+note bottom of Oferta
+  La oferta la hace un vendedor
+  a un cliente sobre un producto.
+
+  Si el vendedor reduce el precio,
+  precioOferta es menor que
+  Producto.precio.
+
+  Un gestor o administrador puede
+  bloquearla (estado = BLOQUEADA).
+  idBloqueador y fechaBloqueo
+  solo se rellenan en ese caso.
+end note
+
+note bottom of Factura
+  numeroFactura lo genera el software
+  de facturación externo al emitirla.
+
+  fechaUltimaEdicion es nula hasta que
+  se edita la factura.
+end note
+
+note bottom of Email
+  El envío lo realiza el gestor de
+  correo externo.
+
+  enviado = false y fechaEnvio nula
+  si el email no pudo entregarse.
+end note
+
+@enduml
