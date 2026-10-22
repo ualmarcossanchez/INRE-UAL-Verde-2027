@@ -1,0 +1,20 @@
+### CU-006: Gestionar nuevas reservas
+
+| **CU-006** | **Gestionar nuevas reservas** |
+| :--- | :--- |
+| **Versión** | 1.0 (Octubre-2026) |
+| **Autores<br>Fuentes** | Marcos Sánchez García<br>Enunciado del supuesto práctico y entrevistas |
+| **Referencias** | • Actor: Comercial<br>• Relacionado con: Consultar reservas |
+| **Descripción** | El sistema deberá permitir al comercial registrar, tramitar y confirmar las nuevas reservas solicitadas por los clientes. |
+| **Evento activación** | El comercial recibe una solicitud de reserva y comienza el proceso de alta en el sistema. |
+| **Pre condición** | El comercial debe estar autenticado en el sistema. La habitación solicitada debe estar disponible. |
+| **Post condición** | La reserva queda registrada y confirmada en el sistema. |
+| **Resultados** | Actualización de la base de datos con los datos del cliente, la reserva y asignación de la habitación. |
+| **Esc. principal** | 1. El comercial accede al módulo de nuevas reservas.<br>2. Introduce los datos personales del cliente y las fechas de estancia.<br>3. El sistema verifica que haya disponibilidad en esas fechas.<br>4. El sistema calcula el importe total de la reserva.<br>5. El comercial confirma los datos con el cliente y guarda la reserva.<br>6. El sistema registra la reserva y devuelve un localizador. |
+| **Alternativas** | Ninguna |
+| **Excepciones** | **Al paso 3:**<br>1. No hay habitaciones disponibles para las fechas/tipos indicados.<br>2. El sistema avisa al comercial y el proceso se detiene o se reinicia buscando otras fechas. |
+| **Importancia** | Muy importante |
+| **Estado** | Aceptado |
+| **Comentarios** | Caso de uso exclusivo del departamento comercial. |
+
+---
