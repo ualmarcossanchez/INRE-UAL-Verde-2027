@@ -1,0 +1,198 @@
+@startuml
+
+top to bottom direction
+
+skinparam classAttributeIconSize 0
+skinparam shadowing false
+skinparam linetype ortho
+skinparam packageStyle rectangle
+skinparam nodesep 50
+skinparam ranksep 60
+
+title Diagrama de clases - Horarios
+
+
+' =========================================================
+' USUARIOS
+' =========================================================
+
+package "Gestión de usuarios" {
+
+    abstract class Usuario {
+        # idUsuario: int <<PK>>
+        # nombre: String
+        # email: String
+        # activo: Boolean
+    }
+
+    class PAS {
+        - numEmpleado: String
+        - puesto: String
+    }
+
+    class PDI {
+        - numEmpleado: String
+        - departamento: String
+    }
+
+    class Estudiante {
+        - dni: String
+        - idPASAlta: int <<FK>> {nullable}
+        - idPDIAlta: int <<FK>> {nullable}
+        - fechaAlta: DateTime
+        - datosVerificados: Boolean
+    }
+}
+
+
+' =========================================================
+' ASIGNATURAS Y LISTAS DE CLASE
+' =========================================================
+
+package "Gestión académica" {
+
+    class Asignatura {
+        - idAsignatura: int <<PK>>
+        - codigo: String
+        - nombre: String
+    }
+
+    class AsignaturaPDI {
+        - idAsignatura: int <<PK, FK>>
+        - idPDI: int <<PK, FK>>
+    }
+
+    class ListaClase {
+        - idAsignatura: int <<PK, FK>>
+        - idEstudiante: int <<PK, FK>>
+        - curso: String
+    }
+}
+
+
+' =========================================================
+' HORARIOS
+' =========================================================
+
+package "Gestión de horarios" {
+
+    class Horario {
+        - idHorario: int <<PK>>
+        - idAsignatura: int <<FK>>
+        - idPASModificador: int <<FK>> {nullable}
+        - diaSemana: DiaSemana
+        - horaInicio: Time
+        - horaFin: Time
+        - aula: String
+        - fechaUltimaModificacion: DateTime {nullable}
+    }
+
+    enum DiaSemana {
+        LUNES
+        MARTES
+        MIERCOLES
+        JUEVES
+        VIERNES
+    }
+
+    class PropuestaCambio {
+        - idPropuesta: int <<PK>>
+        - idHorario: int <<FK>>
+        - idPDI: int <<FK>>
+        - descripcion: String
+        - fecha: DateTime
+        - estado: EstadoPropuesta
+    }
+
+    enum EstadoPropuesta {
+        PENDIENTE
+        ATENDIDA
+    }
+}
+
+
+' =========================================================
+' HERENCIA DE USUARIOS
+' =========================================================
+
+Usuario <|-- PAS
+Usuario <|-- PDI
+Usuario <|-- Estudiante
+
+
+' =========================================================
+' RELACIONES ACADÉMICAS
+' =========================================================
+
+Asignatura "1" -- "0..*" AsignaturaPDI : impartida por
+
+PDI "1" -- "0..*" AsignaturaPDI : imparte
+
+Asignatura "1" -- "0..*" ListaClase : lista de clase
+
+Estudiante "1" -- "0..*" ListaClase : matriculado en
+
+PAS "0..1" -- "0..*" Estudiante : da de alta
+
+PDI "0..1" -- "0..*" Estudiante : da de alta
+
+
+' =========================================================
+' RELACIONES DE HORARIOS
+' =========================================================
+
+Asignatura "1" -- "0..*" Horario : tiene
+
+PAS "0..1" -- "0..*" Horario : modifica
+
+Horario "1" -- "0..*" PropuestaCambio : sobre
+
+PDI "1" -- "0..*" PropuestaCambio : propone
+
+
+' =========================================================
+' REGLAS DEL MODELO
+' =========================================================
+
+note bottom of Usuario
+  PAS, PDI y estudiantes pueden
+  consultar horarios.
+
+  La consulta no almacena nada:
+  se calcula sobre Horario.
+end note
+
+note bottom of Estudiante
+  Lo dan de alta el PAS o el PDI,
+  y en ambos casos se verifican
+  sus datos (datosVerificados).
+
+  Solo uno de idPASAlta e idPDIAlta
+  está informado: el que hizo el alta.
+end note
+
+note bottom of ListaClase
+  El PDI puede, de forma excepcional
+  al dar de alta a un estudiante,
+  buscar en las listas de clase de
+  sus asignaturas (AsignaturaPDI).
+
+  La búsqueda no se almacena.
+end note
+
+note bottom of Horario
+  El PAS modifica los horarios
+  directamente.
+
+  idPASModificador y
+  fechaUltimaModificacion son nulos
+  mientras no se haya modificado.
+end note
+
+note bottom of PropuestaCambio
+  El PDI no modifica el horario:
+  propone el cambio, que queda
+  PENDIENTE hasta que se atienda.
+end note
+
+@enduml
