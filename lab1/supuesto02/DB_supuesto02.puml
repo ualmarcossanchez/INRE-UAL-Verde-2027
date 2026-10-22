@@ -2,298 +2,348 @@
 
 left to right direction
 
-skinparam classAttributeIconSize 0
 skinparam shadowing false
 skinparam linetype ortho
-skinparam packageStyle rectangle
 
-title Diagrama de clases - Sistema de Compras
+skinparam entity {
+    BackgroundColor White
+    BorderColor Black
+}
 
+title Modelo relacional - Sistema de Compras
 
 ' =========================================================
 ' USUARIOS Y ROLES
 ' =========================================================
 
-package "Gestión de usuarios" {
-
-    class Usuario {
-        - idUsuario: int <<PK>>
-        - nombre: String
-        - email: String
-        - passwordHash: String
-        - fechaRegistro: DateTime
-        - activo: Boolean
-    }
-
-    class Rol {
-        - idRol: int <<PK>>
-        - nombre: String
-    }
-
-    class UsuarioRol {
-        - idUsuario: int <<PK, FK>>
-        - idRol: int <<PK, FK>>
-    }
+entity USUARIO {
+    * idUsuario : int <<PK>>
+    --
+    * nombre : varchar
+    * email : varchar
+    * passwordHash : varchar
+    * fechaRegistro : datetime
+    * activo : boolean
 }
 
+entity ROL {
+    * idRol : int <<PK>>
+    --
+    * nombre : varchar
+}
+
+entity USUARIO_ROL {
+    * idUsuario : int <<PK, FK>>
+    * idRol : int <<PK, FK>>
+}
 
 ' =========================================================
 ' PRODUCTOS Y OFERTAS
 ' =========================================================
 
-package "Catálogo de productos" {
-
-    class Producto {
-        - idProducto: int <<PK>>
-        - idVendedor: int <<FK>>
-        - nombre: String
-        - descripcion: String
-        - precioBase: double
-        - cantidadDisponible: int
-        - estado: EstadoProducto
-        - fechaAlta: DateTime
-    }
-
-    enum EstadoProducto {
-        ACTIVO
-        BLOQUEADO
-        ELIMINADO
-    }
-
-    class Oferta {
-        - idOferta: int <<PK>>
-        - idProducto: int <<FK>>
-        - idPublicador: int <<FK>>
-        - precioOferta: double
-        - fechaInicio: DateTime
-        - fechaFin: DateTime
-        - estado: EstadoOferta
-    }
-
-    enum EstadoOferta {
-        PENDIENTE
-        ACTIVA
-        FINALIZADA
-        CANCELADA
-        ELIMINADA
-    }
+entity PRODUCTO {
+    * idProducto : int <<PK>>
+    --
+    * idVendedor : int <<FK>>
+    * nombre : varchar
+    descripcion : varchar
+    * precioBase : decimal
+    * cantidadDisponible : int
+    * estado : EstadoProducto
+    * fechaAlta : datetime
 }
 
+entity OFERTA {
+    * idOferta : int <<PK>>
+    --
+    * idProducto : int <<FK>>
+    * idPublicador : int <<FK>>
+    * precioOferta : decimal
+    * fechaInicio : datetime
+    * fechaFin : datetime
+    * estado : EstadoOferta
+}
 
 ' =========================================================
 ' CARRITO
 ' =========================================================
 
-package "Gestión del carrito" {
-
-    class Carrito {
-        - idCarrito: int <<PK>>
-        - idComprador: int <<FK>>
-        - fechaCreacion: DateTime
-        - estado: EstadoCarrito
-    }
-
-    enum EstadoCarrito {
-        ACTIVO
-        CONFIRMADO
-        CANCELADO
-    }
-
-    class LineaCarrito {
-        - idLinea: int <<PK>>
-        - idCarrito: int <<FK>>
-        - idProducto: int <<FK>>
-        - idOferta: int <<FK>> {nullable}
-        - cantidad: int
-        - fechaAgregacion: DateTime
-    }
+entity CARRITO {
+    * idCarrito : int <<PK>>
+    --
+    * idComprador : int <<FK>>
+    * fechaCreacion : datetime
+    * estado : EstadoCarrito
 }
 
+entity LINEA_CARRITO {
+    * idLinea : int <<PK>>
+    --
+    * idCarrito : int <<FK>>
+    * idProducto : int <<FK>>
+    idOferta : int <<FK>>
+    * cantidad : int
+    * fechaAgregacion : datetime
+}
 
 ' =========================================================
 ' COMPRAVENTAS
 ' =========================================================
 
-package "Gestión de compraventas" {
-
-    class Compraventa {
-        - idCompraventa: int <<PK>>
-        - idComprador: int <<FK>>
-        - idVendedor: int <<FK>>
-        - fecha: DateTime
-        - estado: EstadoCompraventa
-        - importeTotal: double
-    }
-
-    enum EstadoCompraventa {
-        PENDIENTE
-        ACEPTADA
-        RECHAZADA
-        CANCELADA
-        COMPLETADA
-    }
-
-    class DetalleCompraventa {
-        - idDetalle: int <<PK>>
-        - idCompraventa: int <<FK>>
-        - idProducto: int <<FK>>
-        - idOferta: int <<FK>> {nullable}
-        - cantidad: int
-        - precioUnitarioFinal: double
-    }
+entity COMPRAVENTA {
+    * idCompraventa : int <<PK>>
+    --
+    * idComprador : int <<FK>>
+    * idVendedor : int <<FK>>
+    * fecha : datetime
+    * estado : EstadoCompraventa
+    * importeTotal : decimal
 }
 
+entity DETALLE_COMPRAVENTA {
+    * idDetalle : int <<PK>>
+    --
+    * idCompraventa : int <<FK>>
+    * idProducto : int <<FK>>
+    idOferta : int <<FK>>
+    * cantidad : int
+    * precioUnitarioFinal : decimal
+}
 
 ' =========================================================
 ' NOTIFICACIONES
 ' =========================================================
 
-package "Gestión de notificaciones" {
-
-    class Notificacion {
-        - idNotificacion: int <<PK>>
-        - idDestinatario: int <<FK>>
-        - idEmisor: int <<FK>> {nullable}
-        - idProducto: int <<FK>> {nullable}
-        - idOferta: int <<FK>> {nullable}
-        - titulo: String
-        - mensaje: String
-        - tipo: TipoNotificacion
-        - fechaCreacion: DateTime
-        - fechaLectura: DateTime {nullable}
-        - leida: Boolean
-    }
-
-    enum TipoNotificacion {
-        NUEVO_PRODUCTO
-        NUEVA_OFERTA
-        FIN_OFERTA
-        OFERTA_ELIMINADA
-        COMPRAVENTA
-        SISTEMA
-    }
+entity NOTIFICACION {
+    * idNotificacion : int <<PK>>
+    --
+    * idDestinatario : int <<FK>>
+    idEmisor : int <<FK>>
+    idProducto : int <<FK>>
+    idOferta : int <<FK>>
+    * titulo : varchar
+    * mensaje : varchar
+    * tipo : TipoNotificacion
+    * fechaCreacion : datetime
+    fechaLectura : datetime
+    * leida : boolean
 }
 
-
 ' =========================================================
-' RELACIONES DE USUARIOS Y ROLES
-' =========================================================
-
-Usuario "1" -- "0..*" UsuarioRol : idUsuario
-Rol "1" -- "0..*" UsuarioRol : idRol
-
-
-' =========================================================
-' RELACIONES DE PRODUCTOS Y OFERTAS
+' RELACIONES: USUARIOS Y ROLES
 ' =========================================================
 
-Usuario "1" -- "0..*" Producto : vendedor
-
-Producto "1" -- "0..*" Oferta : tiene
-
-Usuario "1" -- "0..*" Oferta : publica
-
+USUARIO ||--o{ USUARIO_ROL : tiene
+ROL ||--o{ USUARIO_ROL : asignado
 
 ' =========================================================
-' RELACIONES DEL CARRITO
+' RELACIONES: PRODUCTOS Y OFERTAS
 ' =========================================================
 
-Usuario "1" -- "0..*" Carrito : comprador
-
-Carrito "1" *-- "0..*" LineaCarrito : contiene
-
-Producto "1" -- "0..*" LineaCarrito : producto
-
-Oferta "0..1" -- "0..*" LineaCarrito : oferta aplicada
-
+USUARIO ||--o{ PRODUCTO : vende
+PRODUCTO ||--o{ OFERTA : tiene
+USUARIO ||--o{ OFERTA : publica
 
 ' =========================================================
-' RELACIONES DE COMPRAVENTA
+' RELACIONES: CARRITO
 ' =========================================================
 
-Usuario "1" -- "0..*" Compraventa : comprador
-
-Usuario "1" -- "0..*" Compraventa : vendedor
-
-Compraventa "1" *-- "1..*" DetalleCompraventa : contiene
-
-Producto "1" -- "0..*" DetalleCompraventa : producto
-
-Oferta "0..1" -- "0..*" DetalleCompraventa : oferta aplicada
-
+USUARIO ||--o{ CARRITO : posee
+CARRITO ||--o{ LINEA_CARRITO : contiene
+PRODUCTO ||--o{ LINEA_CARRITO : aparece_en
+OFERTA |o--o{ LINEA_CARRITO : aplicada_en
 
 ' =========================================================
-' RELACIONES DE NOTIFICACIONES
+' RELACIONES: COMPRAVENTAS
 ' =========================================================
 
-Usuario "1" -- "0..*" Notificacion : destinatario
+USUARIO ||--o{ COMPRAVENTA : compra
+USUARIO ||--o{ COMPRAVENTA : vende
 
-Usuario "0..1" -- "0..*" Notificacion : emisor
-
-Producto "0..1" -- "0..*" Notificacion : producto relacionado
-
-Oferta "0..1" -- "0..*" Notificacion : oferta relacionada
-
+COMPRAVENTA ||--|{ DETALLE_COMPRAVENTA : contiene
+PRODUCTO ||--o{ DETALLE_COMPRAVENTA : aparece_en
+OFERTA |o--o{ DETALLE_COMPRAVENTA : aplicada_en
 
 ' =========================================================
-' REGLAS DEL MODELO
+' RELACIONES: NOTIFICACIONES
 ' =========================================================
 
-note bottom of Producto
-  Un producto puede comprarse cuando:
-  - estado = ACTIVO
-  - cantidadDisponible > 0
+USUARIO ||--o{ NOTIFICACION : recibe
+USUARIO |o--o{ NOTIFICACION : emite
+PRODUCTO |o--o{ NOTIFICACION : relacionada_con
+OFERTA |o--o{ NOTIFICACION : relacionada_con
 
-  Si cantidadDisponible = 0,
-  el producto está agotado, no bloqueado.
+' =========================================================
+' DOMINIOS DE LOS ATRIBUTOS ENUMERADOS
+' =========================================================
 
-  BLOQUEADO representa un bloqueo
-  administrativo.
+legend right
+    |= Dominio |= Valores permitidos |
+    | EstadoProducto | ACTIVO, BLOQUEADO, ELIMINADO |
+    | EstadoOferta | PENDIENTE, ACTIVA, FINALIZADA, CANCELADA, ELIMINADA |
+    | EstadoCarrito | ACTIVO, CONFIRMADO, CANCELADO |
+    | EstadoCompraventa | PENDIENTE, ACEPTADA, RECHAZADA, CANCELADA, COMPLETADA |
+    | TipoNotificacion | NUEVO_PRODUCTO, NUEVA_OFERTA, FIN_OFERTA, OFERTA_ELIMINADA, COMPRAVENTA, SISTEMA |
+endlegend
+
+' =========================================================
+' RESTRICCIONES: USUARIO_ROL
+' =========================================================
+
+note right of USUARIO_ROL
+    Clave primaria compuesta:
+    PK (idUsuario, idRol)
+
+    FK idUsuario
+        references USUARIO(idUsuario)
+
+    FK idRol
+        references ROL(idRol)
 end note
 
-note bottom of Oferta
-  La oferta es opcional y temporal.
+' =========================================================
+' RESTRICCIONES: PRODUCTO
+' =========================================================
 
-  Mientras esté activa, puede aplicarse
-  precioOferta en lugar de precioBase.
+note right of PRODUCTO
+    FK idVendedor
+        references USUARIO(idUsuario)
 
-  El producto puede comprarse aunque
-  no tenga ninguna oferta.
+    cantidadDisponible >= 0
+    precioBase >= 0
+
+    Un producto puede comprarse si:
+    - estado = ACTIVO
+    - cantidadDisponible > 0
+
+    cantidadDisponible = 0 significa
+    que el producto está agotado,
+    no bloqueado.
+
+    BLOQUEADO representa un bloqueo
+    administrativo.
 end note
 
-note bottom of LineaCarrito
-  Añadir un producto al carrito
-  no reserva ni bloquea sus unidades.
+' =========================================================
+' RESTRICCIONES: OFERTA
+' =========================================================
 
-  idOferta es opcional porque el producto
-  puede añadirse sin una oferta activa.
+note right of OFERTA
+    FK idProducto
+        references PRODUCTO(idProducto)
 
-  La disponibilidad debe comprobarse
-  antes de realizar la compraventa.
+    FK idPublicador
+        references USUARIO(idUsuario)
+
+    precioOferta >= 0
+    fechaFin > fechaInicio
+
+    La oferta es opcional y temporal.
+
+    Mientras esté activa, puede utilizarse
+    precioOferta en lugar de precioBase.
+
+    El producto puede comprarse aunque
+    no tenga ninguna oferta activa.
 end note
 
-note bottom of DetalleCompraventa
-  precioUnitarioFinal conserva el precio
-  definitivo de la operación.
+' =========================================================
+' RESTRICCIONES: LINEA_CARRITO
+' =========================================================
 
-  Puede coincidir con:
-  - Producto.precioBase
-  - Oferta.precioOferta
-  - Otro precio acordado
+note right of LINEA_CARRITO
+    FK idCarrito
+        references CARRITO(idCarrito)
 
-  idOferta es opcional.
+    FK idProducto
+        references PRODUCTO(idProducto)
 
-  No se almacena el proceso
-  de negociación.
+    FK idOferta
+        references OFERTA(idOferta)
+
+    idOferta admite NULL.
+    cantidad > 0.
+
+    Añadir un producto al carrito
+    reserva y bloquea unidades (se resta cantidad disponible).
+
+    La disponibilidad se comprueba
+    antes de crear la compraventa.
 end note
 
-note bottom of Notificacion
-  idEmisor puede ser nulo cuando la
-  notificación la genera el sistema.
+' =========================================================
+' RESTRICCIONES: COMPRAVENTA
+' =========================================================
 
-  idProducto e idOferta son opcionales
-  porque no todas las notificaciones
-  están relacionadas con ellos.
+note right of COMPRAVENTA
+    FK idComprador
+        references USUARIO(idUsuario)
+
+    FK idVendedor
+        references USUARIO(idUsuario)
+
+    importeTotal >= 0
+
+    idComprador e idVendedor deben
+    referirse a usuarios diferentes.
+end note
+
+' =========================================================
+' RESTRICCIONES: DETALLE_COMPRAVENTA
+' =========================================================
+
+note right of DETALLE_COMPRAVENTA
+    FK idCompraventa
+        references COMPRAVENTA(idCompraventa)
+
+    FK idProducto
+        references PRODUCTO(idProducto)
+
+    FK idOferta
+        references OFERTA(idOferta)
+
+    idOferta admite NULL.
+    cantidad > 0.
+    precioUnitarioFinal >= 0.
+
+    precioUnitarioFinal conserva
+    el precio definitivo de la operación.
+
+    Puede coincidir con:
+    - PRODUCTO.precioBase
+    - OFERTA.precioOferta
+    - otro precio acordado
+
+    No se almacena el proceso
+    de negociación.
+end note
+
+' =========================================================
+' RESTRICCIONES: NOTIFICACION
+' =========================================================
+
+note right of NOTIFICACION
+    FK idDestinatario
+        references USUARIO(idUsuario)
+
+    FK idEmisor
+        references USUARIO(idUsuario)
+
+    FK idProducto
+        references PRODUCTO(idProducto)
+
+    FK idOferta
+        references OFERTA(idOferta)
+
+    idEmisor admite NULL cuando
+    la notificación procede del sistema.
+
+    idProducto e idOferta admiten NULL
+    porque no todas las notificaciones
+    están relacionadas con ellos.
+
+    fechaLectura admite NULL mientras
+    la notificación no haya sido leída.
 end note
 
 @enduml
