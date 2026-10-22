@@ -1,0 +1,20 @@
+### CU-009: Recálculo de precios
+
+| **CU-009** | **Recálculo de precios** |
+| :--- | :--- |
+| **Versión** | 1.0 (Octubre-2026) |
+| **Autores<br>Fuentes** | Marcos Sánchez García<br>Enunciado del diagrama de casos de uso |
+| **Referencias** | • Incluido por (`<<include>>`): Realizar ofertas (CU-004) |
+| **Descripción** | El sistema deberá actualizar matemáticamente el importe final de una estancia o reserva cuando un empleado aplique una nueva oferta o descuento. |
+| **Evento activación** | Se ejecuta de forma automática en el momento en que se asocia una oferta comercial a una tarifa base. |
+| **Pre condición** | Debe existir un precio base válido y los datos del descuento de la oferta introducida. |
+| **Post condición** | El importe total de la reserva/estancia queda modificado en memoria. |
+| **Resultados** | Un nuevo valor numérico (precio final descontado). |
+| **Esc. principal** | 1. El sistema detecta la aplicación de una oferta (porcentaje o importe fijo).<br>2. El sistema toma la tarifa original de la habitación.<br>3. El sistema aplica la operación matemática correspondiente restando el descuento.<br>4. Se retornan los nuevos valores desglosados para ser mostrados o guardados. |
+| **Alternativas** | Ninguna |
+| **Excepciones** | **Al paso 3:**<br>1. El importe del descuento es superior al precio base.<br>2. El sistema detiene el cálculo y lanza un error de "Oferta no válida (importe negativo)". |
+| **Importancia** | Muy importante |
+| **Estado** | Aceptado |
+| **Comentarios** | Comportamiento obligatorio al realizar cualquier tipo de oferta. |
+
+---
