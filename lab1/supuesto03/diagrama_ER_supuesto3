@@ -1,0 +1,132 @@
+@startuml
+left to right direction
+skinparam shadowing false
+skinparam linetype ortho
+!option handwritten false
+
+skinparam entity {
+    BackgroundColor White
+    BorderColor Black
+}
+
+title Modelo Relacional - Sistema Hotelero
+
+' =========================================================
+' USUARIOS Y ACTORES
+' =========================================================
+
+entity USUARIO {
+    * id_usuario : INT <<PK>>
+    --
+    * email : VARCHAR
+    * passwd : VARCHAR
+    * rol : VARCHAR
+    * activo : BOOL
+}
+
+entity CLIENTE {
+    * id_cliente : INT <<PK>>
+    --
+    * id_usuario : INT <<FK, UNIQUE>>
+    * dni : VARCHAR
+    * telefono : VARCHAR
+}
+
+entity EMPLEADO {
+    * id_empleado : INT <<PK>>
+    --
+    * id_usuario : INT <<FK, UNIQUE>>
+    * num_empleado : VARCHAR
+    * rol : VARCHAR
+}
+
+' =========================================================
+' DOMINIO HOTELERO
+' =========================================================
+
+entity TIPO_HAB {
+    * id_tipo : INT <<PK>>
+    --
+    * nombre : VARCHAR
+    * capacidad : INT
+    * precio_base : DECIMAL(10,2)
+}
+
+entity HABITACION {
+    * id_habitacion : INT <<PK>>
+    --
+    * id_tipo : INT <<FK>>
+    * numero : VARCHAR
+    * estado : VARCHAR
+}
+
+entity OFERTA {
+    * id_oferta : INT <<PK>>
+    --
+    * id_hab : INT <<FK>>
+    * id_emp : INT <<FK>>
+    * desc_por : DECIMAL(5,2)
+    * fecha_ini : DATETIME
+    * fecha_fin : DATETIME
+}
+
+entity BLOQUEO_TEMPORAL {
+    * id_bloqueo : INT <<PK>>
+    --
+    * id_habitacion : INT <<FK>>
+    * id_empleado : INT <<FK>>
+    * fecha_hora_inicio : DATETIME
+    * duracion_minutos : INT
+}
+
+' =========================================================
+' TRANSACCIONES
+' =========================================================
+
+entity RESERVA {
+    * id_reserva : INT <<PK>>
+    --
+    * id_cliente : INT <<FK>>
+    * id_empleado : INT <<FK>>
+    * id_habitacion : INT <<FK>>
+    id_oferta : INT <<FK>> 
+    * fecha_entrada : DATETIME
+    * fecha_salida : DATETIME
+    * precio_total : DECIMAL(10,2)
+    * estado : VARCHAR
+}
+
+entity PETICION {
+    * id_peticion : INT <<PK>>
+    --
+    * id_cliente : INT <<FK>>
+    * id_empleado : INT <<FK>>
+    * desc : TEXT
+    * estado : VARCHAR
+    * fecha_soli : DATETIME
+}
+
+' =========================================================
+' RELACIONES
+' =========================================================
+
+USUARIO ||--|| CLIENTE : es un
+USUARIO ||--|| EMPLEADO : es un
+
+TIPO_HAB ||--o{ HABITACION : clasifica
+
+HABITACION ||--o{ OFERTA : tiene
+HABITACION ||--o{ BLOQUEO_TEMPORAL : sufre
+HABITACION ||--o{ RESERVA : asignada a
+
+EMPLEADO ||--o{ OFERTA : gestiona
+EMPLEADO ||--o{ BLOQUEO_TEMPORAL : gestiona
+EMPLEADO ||--o{ RESERVA : gestiona
+EMPLEADO ||--o{ PETICION : atiende
+
+CLIENTE ||--o{ RESERVA : realiza
+CLIENTE ||--o{ PETICION : solicita
+
+OFERTA |o--o{ RESERVA : se aplica en
+
+@enduml
