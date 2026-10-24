@@ -62,7 +62,248 @@ En un sistema de compra, existen cuatro tipos de usuarios: comprador, vendedor, 
 | **Referencias** | Puede consultar precios (UC-01), consultar ofertas (UC-02) y eliminar productos (UC-16). La consulta de precios incluye la búsqueda de productos (UC-17). |
 | **Autor** | Emilio Murillo Cortés \| **Fecha:** 24/10/2026 \| **Versión:** 1.0 |
 
+## Descripción de los casos de uso
 
-# Base de datos
+## Casos de uso
+
+### UC-01 — Consultar precios
+
+| **Campo** | **Contenido** |
+|---|---|
+| **Nombre:** | Consultar precios (UC-01) |
+| **Autor:** | Emilio Murillo Cortés |
+| **Fecha:** | 24/10/2026 |
+| **Descripción:** |  |
+| **Actores:** |  |
+| **Precondiciones:** |  |
+| **Flujo normal:** |  |
+| **Flujo alternativo:** |  |
+| **Poscondiciones:** |  |
+
+### UC-02 — Consultar ofertas
+
+| **Campo** | **Contenido** |
+|---|---|
+| **Nombre:** | Consultar ofertas (UC-02) |
+| **Autor:** | Emilio Murillo Cortés |
+| **Fecha:** | 24/10/2026 |
+| **Descripción:** |  |
+| **Actores:** |  |
+| **Precondiciones:** |  |
+| **Flujo normal:** |  |
+| **Flujo alternativo:** |  |
+| **Poscondiciones:** |  |
+
+### UC-03 — Agregar productos
+
+| **Campo** | **Contenido** |
+|---|---|
+| **Nombre:** | Agregar productos (UC-03) |
+| **Autor:** | Emilio Murillo Cortés |
+| **Fecha:** | 24/10/2026 |
+| **Descripción:** |  |
+| **Actores:** |  |
+| **Precondiciones:** |  |
+| **Flujo normal:** |  |
+| **Flujo alternativo:** |  |
+| **Poscondiciones:** |  |
+
+### UC-04 — Marcar productos como bloqueados
+
+| **Campo** | **Contenido** |
+|---|---|
+| **Nombre:** | Marcar productos como bloqueados (UC-04) |
+| **Autor:** | Emilio Murillo Cortés |
+| **Fecha:** | 24/10/2026 |
+| **Descripción:** |  |
+| **Actores:** |  |
+| **Precondiciones:** |  |
+| **Flujo normal:** |  |
+| **Flujo alternativo:** |  |
+| **Poscondiciones:** |  |
+
+### UC-05 — Consultar productos
+
+| **Campo** | **Contenido** |
+|---|---|
+| **Nombre:** | Consultar productos (UC-05) |
+| **Autor:** | Emilio Murillo Cortés |
+| **Fecha:** | 24/10/2026 |
+| **Descripción:** |  |
+| **Actores:** |  |
+| **Precondiciones:** |  |
+| **Flujo normal:** |  |
+| **Flujo alternativo:** |  |
+| **Poscondiciones:** |  |
+
+### UC-06 — Verificar disponibilidad
+
+| **Campo** | **Contenido** |
+|---|---|
+| **Nombre:** | Verificar disponibilidad (UC-06) |
+| **Autor:** | Emilio Murillo Cortés |
+| **Fecha:** | 24/10/2026 |
+| **Descripción:** |  |
+| **Actores:** |  |
+| **Precondiciones:** |  |
+| **Flujo normal:** |  |
+| **Flujo alternativo:** |  |
+| **Poscondiciones:** |  |
+
+### UC-07 — Realizar compraventa
+
+| **Campo** | **Contenido** |
+|---|---|
+| **Nombre:** | Realizar compraventa (UC-07) |
+| **Autor:** | Emilio Murillo Cortés |
+| **Fecha:** | 24/10/2026 |
+| **Descripción:** |  |
+| **Actores:** |  |
+| **Precondiciones:** |  |
+| **Flujo normal:** |  |
+| **Flujo alternativo:** |  |
+| **Poscondiciones:** |  |
+
+### UC-08 — Acordar precio
+
+| **Campo** | **Contenido** |
+|---|---|
+| **Nombre:** | Acordar precio (UC-08) |
+| **Autor:** | Emilio Murillo Cortés |
+| **Fecha:** | 24/10/2026 |
+| **Descripción:** |  |
+| **Actores:** |  |
+| **Precondiciones:** |  |
+| **Flujo normal:** |  |
+| **Flujo alternativo:** |  |
+| **Poscondiciones:** |  |
+
+### UC-09 — Consultar histórico de ventas
+
+| **Campo** | **Contenido** |
+|---|---|
+| **Nombre:** | Consultar histórico de ventas (UC-09) |
+| **Autor:** | Emilio Murillo Cortés |
+| **Fecha:** | 24/10/2026 |
+| **Descripción:** |  |
+| **Actores:** |  |
+| **Precondiciones:** |  |
+| **Flujo normal:** |  |
+| **Flujo alternativo:** |  |
+| **Poscondiciones:** |  |
+
+### UC-10 — Avisar de nuevos productos
+
+| **Campo** | **Contenido** |
+|---|---|
+| **Nombre:** | Avisar de nuevos productos (UC-10) |
+| **Autor:** | Emilio Murillo Cortés |
+| **Fecha:** | 24/10/2026 |
+| **Descripción:** |  |
+| **Actores:** |  |
+| **Precondiciones:** |  |
+| **Flujo normal:** |  |
+| **Flujo alternativo:** |  |
+| **Poscondiciones:** |  |
+
+### UC-11 — Incorporar oferta
+
+| **Campo** | **Contenido** |
+|---|---|
+| **Nombre:** | Incorporar oferta (UC-11) |
+| **Autor:** | Emilio Murillo Cortés |
+| **Fecha:** | 24/10/2026 |
+| **Descripción:** |  |
+| **Actores:** |  |
+| **Precondiciones:** |  |
+| **Flujo normal:** |  |
+| **Flujo alternativo:** |  |
+| **Poscondiciones:** |  |
+
+### UC-12 — Avisar
+
+| **Campo** | **Contenido** |
+|---|---|
+| **Nombre:** | Avisar (UC-12) |
+| **Autor:** | Emilio Murillo Cortés |
+| **Fecha:** | 24/10/2026 |
+| **Descripción:** |  |
+| **Actores:** |  |
+| **Precondiciones:** |  |
+| **Flujo normal:** |  |
+| **Flujo alternativo:** |  |
+| **Poscondiciones:** |  |
+
+### UC-13 — Enviar notificación
+
+| **Campo** | **Contenido** |
+|---|---|
+| **Nombre:** | Enviar notificación (UC-13) |
+| **Autor:** | Emilio Murillo Cortés |
+| **Fecha:** | 24/10/2026 |
+| **Descripción:** |  |
+| **Actores:** |  |
+| **Precondiciones:** |  |
+| **Flujo normal:** |  |
+| **Flujo alternativo:** |  |
+| **Poscondiciones:** |  |
+
+### UC-14 — Avisar del fin de una oferta
+
+| **Campo** | **Contenido** |
+|---|---|
+| **Nombre:** | Avisar del fin de una oferta (UC-14) |
+| **Autor:** | Emilio Murillo Cortés |
+| **Fecha:** | 24/10/2026 |
+| **Descripción:** |  |
+| **Actores:** |  |
+| **Precondiciones:** |  |
+| **Flujo normal:** |  |
+| **Flujo alternativo:** |  |
+| **Poscondiciones:** |  |
+
+### UC-15 — Eliminar oferta
+
+| **Campo** | **Contenido** |
+|---|---|
+| **Nombre:** | Eliminar oferta (UC-15) |
+| **Autor:** | Emilio Murillo Cortés |
+| **Fecha:** | 24/10/2026 |
+| **Descripción:** |  |
+| **Actores:** |  |
+| **Precondiciones:** |  |
+| **Flujo normal:** |  |
+| **Flujo alternativo:** |  |
+| **Poscondiciones:** |  |
+
+### UC-16 — Eliminar productos
+
+| **Campo** | **Contenido** |
+|---|---|
+| **Nombre:** | Eliminar productos (UC-16) |
+| **Autor:** | Emilio Murillo Cortés |
+| **Fecha:** | 24/10/2026 |
+| **Descripción:** |  |
+| **Actores:** |  |
+| **Precondiciones:** |  |
+| **Flujo normal:** |  |
+| **Flujo alternativo:** |  |
+| **Poscondiciones:** |  |
+
+### UC-17 — Buscar productos
+
+| **Campo** | **Contenido** |
+|---|---|
+| **Nombre:** | Buscar productos (UC-17) |
+| **Autor:** | Emilio Murillo Cortés |
+| **Fecha:** | 24/10/2026 |
+| **Descripción:** |  |
+| **Actores:** |  |
+| **Precondiciones:** |  |
+| **Flujo normal:** |  |
+| **Flujo alternativo:** |  |
+| **Poscondiciones:** |  |
+
+## Base de datos
 
 <img width="1617" height="1409" alt="image" src="https://github.com/user-attachments/assets/1f4dbb02-2712-4ff9-95df-41d7bb98a5f1" />
