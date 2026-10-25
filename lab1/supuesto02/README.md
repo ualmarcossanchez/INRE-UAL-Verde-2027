@@ -104,9 +104,9 @@ En un sistema de compra, existen cuatro tipos de usuarios: comprador, vendedor, 
 | **Descripción:** | Permite al comprador agregar productos al carrito. |
 | **Actores:** | Comprador. |
 | **Precondiciones:** | El producto debe estar disponible. |
-| **Flujo normal:** | 1. El comprador selecciona un producto.<br>2. El comprador indica la cantidad deseada.<br>3. El sistema identifica el producto seleccionado.<br>4. El sistema reserva la cantidad seleccionada.<br>5. El sistema reduce la cantidad disponible del producto.<br>6. El sistema agrega el producto al carrito.<br>7. El sistema confirma que el producto ha sido agregado. |
+| **Flujo normal:** | 1. El comprador selecciona un producto.<br>2. El comprador indica la cantidad deseada.<br>3. El sistema identifica el producto seleccionado.<br>4. El sistema reserva la cantidad seleccionada.<br>5. El sistema reduce la cantidad disponible del producto.<br>6. Si la cantidad disponible llega a cero, el sistema marca el producto como BLOQUEADO.<br>7. El sistema agrega el producto al carrito.<br>8. El sistema confirma que el producto ha sido agregado. |
 | **Flujo alternativo:** |  |
-| **Poscondiciones:** | El producto queda agregado al carrito y las unidades seleccionadas quedan reservadas. |
+| **Poscondiciones:** | El producto queda agregado al carrito y se reduce su cantidad disponible. Si no quedan unidades disponibles, el producto queda en estado BLOQUEADO. |
 
 ### UC-04 — Marcar productos como bloqueados
 
@@ -115,12 +115,12 @@ En un sistema de compra, existen cuatro tipos de usuarios: comprador, vendedor, 
 | **Nombre:** | Marcar productos como bloqueados (UC-04) |
 | **Autor:** | Emilio Murillo Cortés |
 | **Fecha:** | 24/10/2026 |
-| **Descripción:** | Permite reservar las unidades de un producto seleccionado por el comprador. |
+| **Descripción:** | Permite reservar las unidades de un producto y bloquearlo cuando se agotan sus existencias. |
 | **Actores:** | Comprador. |
 | **Precondiciones:** | El producto debe estar disponible. |
-| **Flujo normal:** | 1. El sistema identifica el producto seleccionado.<br>2. El sistema reserva la cantidad seleccionada.<br>3. El sistema reduce la cantidad disponible del producto. |
+| **Flujo normal:** | 1. El sistema identifica el producto seleccionado.<br>2. El sistema reserva la cantidad seleccionada.<br>3. El sistema reduce la cantidad disponible del producto.<br>4. Si la cantidad disponible llega a cero, el sistema marca el producto como BLOQUEADO. |
 | **Flujo alternativo:** |  |
-| **Poscondiciones:** | Las unidades seleccionadas quedan reservadas y se reduce la cantidad disponible del producto. |
+| **Poscondiciones:** | Se reduce la cantidad disponible del producto. Si no quedan unidades disponibles, el producto queda en estado BLOQUEADO. |
 
 ### UC-05 — Consultar productos
 
@@ -132,7 +132,7 @@ En un sistema de compra, existen cuatro tipos de usuarios: comprador, vendedor, 
 | **Descripción:** | Permite al comprador consultar los productos del sistema y conocer su disponibilidad. |
 | **Actores:** | Comprador. |
 | **Precondiciones:** |  |
-| **Flujo normal:** | 1. El comprador solicita consultar los productos.<br>2. El sistema obtiene los productos existentes.<br>3. El sistema consulta el estado de cada producto.<br>4. El sistema consulta la cantidad disponible de cada producto.<br>5. El sistema determina la disponibilidad de cada producto.<br>6. El sistema muestra el resultado al comprador.<br>7. El sistema muestra la información de los productos. |
+| **Flujo normal:** | 1. El comprador solicita consultar los productos.<br>2. El sistema obtiene los productos existentes.<br>3. El sistema consulta el estado de cada producto.<br>4. El sistema consulta la cantidad disponible de cada producto.<br>5. El sistema determina que un producto está disponible si se encuentra ACTIVO y su cantidad disponible es mayor que cero.<br>6. El sistema muestra el resultado al comprador.<br>7. El sistema muestra la información de los productos. |
 | **Flujo alternativo:** |  |
 | **Poscondiciones:** |  |
 
@@ -146,7 +146,7 @@ En un sistema de compra, existen cuatro tipos de usuarios: comprador, vendedor, 
 | **Descripción:** | Permite comprobar si un producto está disponible para su compra. |
 | **Actores:** | Comprador. |
 | **Precondiciones:** | El producto debe existir. |
-| **Flujo normal:** | 1. El sistema consulta el estado de cada producto.<br>2. El sistema consulta la cantidad disponible de cada producto.<br>3. El sistema determina la disponibilidad de cada producto.<br>4. El sistema muestra el resultado al comprador. |
+| **Flujo normal:** | 1. El sistema consulta el estado de cada producto.<br>2. El sistema consulta la cantidad disponible de cada producto.<br>3. El sistema determina que un producto está disponible si se encuentra ACTIVO y su cantidad disponible es mayor que cero.<br>4. El sistema muestra el resultado al comprador. |
 | **Flujo alternativo:** |  |
 | **Poscondiciones:** |  |
 
