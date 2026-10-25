@@ -308,3 +308,164 @@ En un sistema de compra, existen cuatro tipos de usuarios: comprador, vendedor, 
 
 <img width="1669" height="1368" alt="image" src="https://github.com/user-attachments/assets/c5d40232-3fda-4600-817f-93cbe310622b" />
 
+## Tablas de Requisitos de información
+
+### INF-001 — USUARIO
+
+| **Campo** | **Contenido** |
+|---|---|
+| **Código** | INF-001 |
+| **Nombre** | USUARIO |
+| **Versión** | 1.0 (Octubre-2026) |
+| **Autores** | Emilio Murillo Cortés |
+| **Fuentes** | Enunciado del supuesto 2 (Sistema de Compras) |
+| **Referencias** | UC-01 Consultar precios.<br>UC-02 Consultar ofertas.<br>UC-03 Agregar productos.<br>UC-07 Realizar compraventa.<br>UC-10 Avisar de nuevos productos.<br>UC-14 Avisar del fin de una oferta.<br>UC-16 Eliminar productos. |
+| **Descripción** | El sistema deberá almacenar la información de las personas que utilizan el sistema de compras. Los permisos de cada usuario se determinan mediante los roles que tenga asignados. |
+| **Datos específicos** | - `idUsuario`: identificador único del usuario.<br>- `nombre`: nombre del usuario.<br>- `email`: correo electrónico del usuario.<br>- `passwordHash`: contraseña del usuario almacenada de forma segura.<br>- `fechaRegistro`: fecha y hora de registro.<br>- `activo`: indica si el usuario se encuentra activo. |
+| **Importancia** | Muy importante |
+| **Estado** | Aceptado |
+| **Comentarios** | Un usuario puede actuar como comprador, vendedor, proveedor o administrador según los roles que tenga asignados. |
+
+### INF-002 — ROL
+
+| **Campo** | **Contenido** |
+|---|---|
+| **Código** | INF-002 |
+| **Nombre** | ROL |
+| **Versión** | 1.0 (Octubre-2026) |
+| **Autores** | Emilio Murillo Cortés |
+| **Fuentes** | Enunciado del supuesto 2 (Sistema de Compras) |
+| **Referencias** | ACT-002 Comprador.<br>ACT-003 Vendedor.<br>ACT-004 Proveedor.<br>ACT-005 Administrador. |
+| **Descripción** | El sistema deberá almacenar los distintos roles que pueden asignarse a los usuarios. |
+| **Datos específicos** | - `idRol`: identificador único del rol.<br>- `nombre`: nombre del rol. |
+| **Importancia** | Muy importante |
+| **Estado** | Aceptado |
+| **Comentarios** | Los roles previstos son Comprador, Vendedor, Proveedor y Administrador. |
+
+### INF-003 — USUARIO_ROL
+
+| **Campo** | **Contenido** |
+|---|---|
+| **Código** | INF-003 |
+| **Nombre** | USUARIO_ROL |
+| **Versión** | 1.0 (Octubre-2026) |
+| **Autores** | Emilio Murillo Cortés |
+| **Fuentes** | Enunciado del supuesto 2 (Sistema de Compras) |
+| **Referencias** | ACT-002 Comprador.<br>ACT-003 Vendedor.<br>ACT-004 Proveedor.<br>ACT-005 Administrador. |
+| **Descripción** | El sistema deberá almacenar la relación entre los usuarios y los roles que tienen asignados. |
+| **Datos específicos** | - `idUsuario`: identificador del usuario.<br>- `idRol`: identificador del rol asignado. |
+| **Importancia** | Muy importante |
+| **Estado** | Aceptado |
+| **Comentarios** | La clave primaria está formada por `idUsuario` e `idRol`. Un usuario puede tener varios roles y un mismo rol puede estar asignado a varios usuarios. |
+
+### INF-004 — PRODUCTO
+
+| **Campo** | **Contenido** |
+|---|---|
+| **Código** | INF-004 |
+| **Nombre** | PRODUCTO |
+| **Versión** | 1.0 (Octubre-2026) |
+| **Autores** | Emilio Murillo Cortés |
+| **Fuentes** | Enunciado del supuesto 2 (Sistema de Compras) |
+| **Referencias** | UC-01 Consultar precios.<br>UC-03 Agregar productos.<br>UC-04 Marcar productos como bloqueados.<br>UC-05 Consultar productos.<br>UC-06 Verificar disponibilidad.<br>UC-10 Avisar de nuevos productos.<br>UC-16 Eliminar productos.<br>UC-17 Buscar productos. |
+| **Descripción** | El sistema deberá almacenar la información de los productos ofrecidos por los vendedores, incluyendo su precio, cantidad disponible y estado. |
+| **Datos específicos** | - `idProducto`: identificador único del producto.<br>- `idVendedor`: identificador del usuario que vende el producto.<br>- `nombre`: nombre del producto.<br>- `descripcion`: descripción opcional del producto.<br>- `precioBase`: precio base del producto.<br>- `cantidadDisponible`: número de unidades disponibles.<br>- `estado`: estado actual del producto.<br>- `fechaAlta`: fecha y hora de incorporación del producto. |
+| **Importancia** | Muy importante |
+| **Estado** | Aceptado |
+| **Comentarios** | Los estados posibles son `ACTIVO`, `BLOQUEADO` y `ELIMINADO`. Un producto puede comprarse cuando está `ACTIVO` y su cantidad disponible es mayor que cero. Al agregar unidades al carrito se reduce `cantidadDisponible`. Cuando la cantidad disponible llega a cero, el producto queda `BLOQUEADO` por estar agotado. |
+
+### INF-005 — OFERTA
+
+| **Campo** | **Contenido** |
+|---|---|
+| **Código** | INF-005 |
+| **Nombre** | OFERTA |
+| **Versión** | 1.0 (Octubre-2026) |
+| **Autores** | Emilio Murillo Cortés |
+| **Fuentes** | Enunciado del supuesto 2 (Sistema de Compras) |
+| **Referencias** | UC-02 Consultar ofertas.<br>UC-10 Avisar de nuevos productos.<br>UC-11 Incorporar oferta.<br>UC-14 Avisar del fin de una oferta.<br>UC-15 Eliminar oferta. |
+| **Descripción** | El sistema deberá almacenar las ofertas asociadas a los productos, junto con su precio, periodo de vigencia y estado. |
+| **Datos específicos** | - `idOferta`: identificador único de la oferta.<br>- `idProducto`: identificador del producto al que se aplica.<br>- `idPublicador`: identificador del usuario que publica la oferta.<br>- `precioOferta`: precio del producto durante la oferta.<br>- `fechaInicio`: fecha y hora de inicio.<br>- `fechaFin`: fecha y hora de finalización.<br>- `estado`: estado actual de la oferta. |
+| **Importancia** | Importante |
+| **Estado** | Aceptado |
+| **Comentarios** | Los estados posibles son `PENDIENTE`, `ACTIVA`, `FINALIZADA`, `CANCELADA` y `ELIMINADA`. Una oferta es opcional y temporal. El producto puede comprarse aunque no tenga una oferta activa. |
+
+### INF-006 — CARRITO
+
+| **Campo** | **Contenido** |
+|---|---|
+| **Código** | INF-006 |
+| **Nombre** | CARRITO |
+| **Versión** | 1.0 (Octubre-2026) |
+| **Autores** | Emilio Murillo Cortés |
+| **Fuentes** | Enunciado del supuesto 2 (Sistema de Compras) |
+| **Referencias** | UC-03 Agregar productos.<br>UC-04 Marcar productos como bloqueados.<br>UC-07 Realizar compraventa. |
+| **Descripción** | El sistema deberá almacenar los carritos utilizados por los compradores para seleccionar los productos que desean comprar. |
+| **Datos específicos** | - `idCarrito`: identificador único del carrito.<br>- `idComprador`: identificador del usuario propietario del carrito.<br>- `fechaCreacion`: fecha y hora de creación.<br>- `estado`: estado actual del carrito. |
+| **Importancia** | Muy importante |
+| **Estado** | Aceptado |
+| **Comentarios** | Los estados posibles son `ACTIVO`, `CONFIRMADO` y `CANCELADO`. Un carrito activo puede contener una o varias líneas de carrito. |
+
+### INF-007 — LINEA_CARRITO
+
+| **Campo** | **Contenido** |
+|---|---|
+| **Código** | INF-007 |
+| **Nombre** | LINEA_CARRITO |
+| **Versión** | 1.0 (Octubre-2026) |
+| **Autores** | Emilio Murillo Cortés |
+| **Fuentes** | Enunciado del supuesto 2 (Sistema de Compras) |
+| **Referencias** | UC-03 Agregar productos.<br>UC-04 Marcar productos como bloqueados.<br>UC-06 Verificar disponibilidad.<br>UC-07 Realizar compraventa. |
+| **Descripción** | El sistema deberá almacenar los productos agregados a cada carrito, la cantidad seleccionada y la oferta aplicada, si existe. |
+| **Datos específicos** | - `idLinea`: identificador único de la línea.<br>- `idCarrito`: identificador del carrito al que pertenece.<br>- `idProducto`: identificador del producto agregado.<br>- `idOferta`: identificador opcional de la oferta aplicada.<br>- `cantidad`: número de unidades agregadas.<br>- `fechaAgregacion`: fecha y hora en la que se agregó el producto. |
+| **Importancia** | Muy importante |
+| **Estado** | Aceptado |
+| **Comentarios** | `idOferta` puede quedar vacío cuando no se aplica ninguna oferta. La cantidad debe ser mayor que cero. Agregar una línea al carrito reserva las unidades y reduce la cantidad disponible del producto. Si la cantidad disponible llega a cero, el producto queda `BLOQUEADO`. |
+
+### INF-008 — COMPRAVENTA
+
+| **Campo** | **Contenido** |
+|---|---|
+| **Código** | INF-008 |
+| **Nombre** | COMPRAVENTA |
+| **Versión** | 1.0 (Octubre-2026) |
+| **Autores** | Emilio Murillo Cortés |
+| **Fuentes** | Enunciado del supuesto 2 (Sistema de Compras) |
+| **Referencias** | UC-07 Realizar compraventa.<br>UC-08 Acordar precio.<br>UC-09 Consultar histórico de ventas. |
+| **Descripción** | El sistema deberá almacenar las operaciones de compraventa realizadas conjuntamente por un comprador y un vendedor. |
+| **Datos específicos** | - `idCompraventa`: identificador único de la compraventa.<br>- `idComprador`: identificador del usuario comprador.<br>- `idVendedor`: identificador del usuario vendedor.<br>- `fecha`: fecha y hora de la operación.<br>- `estado`: estado de la compraventa.<br>- `importeTotal`: importe total de la operación. |
+| **Importancia** | Muy importante |
+| **Estado** | Aceptado |
+| **Comentarios** | Los estados posibles son `PENDIENTE`, `ACEPTADA`, `RECHAZADA`, `CANCELADA` y `COMPLETADA`. El comprador y el vendedor deben ser usuarios diferentes. |
+
+### INF-009 — DETALLE_COMPRAVENTA
+
+| **Campo** | **Contenido** |
+|---|---|
+| **Código** | INF-009 |
+| **Nombre** | DETALLE_COMPRAVENTA |
+| **Versión** | 1.0 (Octubre-2026) |
+| **Autores** | Emilio Murillo Cortés |
+| **Fuentes** | Enunciado del supuesto 2 (Sistema de Compras) |
+| **Referencias** | UC-07 Realizar compraventa.<br>UC-08 Acordar precio.<br>UC-09 Consultar histórico de ventas. |
+| **Descripción** | El sistema deberá almacenar los productos incluidos en cada compraventa, sus cantidades y el precio unitario definitivo acordado. |
+| **Datos específicos** | - `idDetalle`: identificador único del detalle.<br>- `idCompraventa`: identificador de la compraventa.<br>- `idProducto`: identificador del producto vendido.<br>- `idOferta`: identificador opcional de la oferta aplicada.<br>- `cantidad`: número de unidades vendidas.<br>- `precioUnitarioFinal`: precio definitivo acordado para cada unidad. |
+| **Importancia** | Muy importante |
+| **Estado** | Aceptado |
+| **Comentarios** | `idOferta` puede quedar vacío. El precio unitario final puede coincidir con el precio base, con el precio de una oferta o con otro precio acordado. No se almacena el proceso de negociación. |
+
+### INF-010 — NOTIFICACION
+
+| **Campo** | **Contenido** |
+|---|---|
+| **Código** | INF-010 |
+| **Nombre** | NOTIFICACION |
+| **Versión** | 1.0 (Octubre-2026) |
+| **Autores** | Emilio Murillo Cortés |
+| **Fuentes** | Enunciado del supuesto 2 (Sistema de Compras) |
+| **Referencias** | UC-10 Avisar de nuevos productos.<br>UC-12 Avisar.<br>UC-13 Enviar notificación.<br>UC-14 Avisar del fin de una oferta. |
+| **Descripción** | El sistema deberá almacenar las notificaciones enviadas a los usuarios como consecuencia de los avisos realizados en el sistema. |
+| **Datos específicos** | - `idNotificacion`: identificador único de la notificación.<br>- `idDestinatario`: identificador del usuario que recibe la notificación.<br>- `idEmisor`: identificador opcional del usuario que origina la notificación.<br>- `idProducto`: identificador opcional del producto relacionado.<br>- `idOferta`: identificador opcional de la oferta relacionada.<br>- `titulo`: título de la notificación.<br>- `mensaje`: contenido de la notificación.<br>- `tipo`: tipo de notificación.<br>- `fechaCreacion`: fecha y hora de creación.<br>- `fechaLectura`: fecha y hora de lectura.<br>- `leida`: indica si la notificación ha sido leída. |
+| **Importancia** | Importante |
+| **Estado** | Aceptado |
+| **Comentarios** | Los tipos posibles son `NUEVO_PRODUCTO`, `NUEVA_OFERTA`, `FIN_OFERTA`, `OFERTA_ELIMINADA`, `COMPRAVENTA` y `SISTEMA`. `idEmisor` puede quedar vacío si la notificación procede del sistema. `idProducto`, `idOferta` y `fechaLectura` también pueden quedar vacíos cuando no sean aplicables. |
