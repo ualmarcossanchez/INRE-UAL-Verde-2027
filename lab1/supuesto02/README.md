@@ -306,4 +306,5 @@ En un sistema de compra, existen cuatro tipos de usuarios: comprador, vendedor, 
 
 ## Base de datos
 
-<img width="1617" height="1409" alt="image" src="https://github.com/user-attachments/assets/1f4dbb02-2712-4ff9-95df-41d7bb98a5f1" />
+<img width="1669" height="1368" alt="image" src="https://github.com/user-attachments/assets/c5d40232-3fda-4600-817f-93cbe310622b" />
+
