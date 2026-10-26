@@ -1,0 +1,328 @@
+@startuml Diagrama_Entidad_Relacion_Supuesto_05
+
+' ==============================================================================
+' DIAGRAMA ENTIDAD-RELACIÓN (E/R) - SISTEMA DE GESTIÓN DE INCIDENCIAS
+' ==============================================================================
+
+' Configuración de renderizado y colores
+hide circle
+skinparam nodesep 70
+skinparam ranksep 110
+skinparam padding 3
+skinparam shadowing false
+
+' Estilos para las Entidades
+skinparam entity {
+    BackgroundColor #F8F9FA
+    BorderColor #1F497D
+    HeaderBackgroundColor #DCE6F1
+    FontName Arial
+    FontSize 11
+}
+
+' Estilos para las Notas (Comentarios Amarillos)
+skinparam note {
+    BackgroundColor #FFF2CC
+    BorderColor #D6B656
+    FontName Arial
+    FontSize 10
+    FontColor #000000
+}
+
+' ==============================================================================
+' ENTIDADES Y NOTAS
+' ==============================================================================
+
+' --- USUARIO ---
+entity "USUARIO" as usuario {
+    * id_usuario : INT <<PK>>
+    --
+    * nombre : VARCHAR
+    * apellidos : VARCHAR
+    * email : VARCHAR
+      telefono : VARCHAR
+    * password : VARCHAR
+    * fecha_registro : DATE
+    * estado : VARCHAR
+}
+
+note top of usuario
+    No tiene FK.
+
+    telefono admite NULL.
+    email es UNIQUE.
+    estado IN (ACTIVO, INACTIVO, BLOQUEADO).
+
+    nombre, apellidos, email, password,
+    fecha_registro y estado son NOT NULL.
+end note
+
+' --- ROL ---
+entity "ROL" as rol {
+    * id_rol : INT <<PK>>
+    --
+    * nombre : VARCHAR
+      descripcion : TEXT
+}
+
+note top of rol
+    No tiene FK.
+
+    descripcion admite NULL.
+    nombre es UNIQUE.
+
+    nombre solo puede tomar los valores:
+    - Invitado
+    - Técnico
+    - Operador
+    - Administrador
+end note
+
+' --- USUARIO_ROL ---
+entity "USUARIO_ROL" as usuario_rol {
+    * id_usuario : INT <<PK, FK>>
+    * id_rol : INT <<PK, FK>>
+}
+
+note top of usuario_rol
+    FK id_usuario
+        references USUARIO(id_usuario)
+
+    FK id_rol
+        references ROL(id_rol)
+
+    PK compuesta (id_usuario, id_rol).
+    El par (id_usuario, id_rol) es único.
+end note
+
+' --- CATEGORIA ---
+entity "CATEGORIA" as categoria {
+    * id_categoria : INT <<PK>>
+    --
+    * nombre : VARCHAR
+      descripcion : TEXT
+    * estado : VARCHAR
+}
+
+note bottom of categoria
+    No tiene FK.
+
+    descripcion admite NULL.
+    nombre es UNIQUE.
+    estado IN (ACTIVA, INACTIVA).
+end note
+
+' --- INCIDENCIA ---
+entity "INCIDENCIA" as incidencia {
+    * id_incidencia : INT <<PK>>
+    --
+    * id_usuario_reporta : INT <<FK>>
+      id_usuario_alta : INT <<FK>>
+      id_categoria : INT <<FK>>
+      id_incidencia_duplicada : INT <<FK>>
+    * explicacion_resumida : VARCHAR
+    * explicacion_completa : TEXT
+    * foto_url : VARCHAR
+    * latitud : DECIMAL
+    * longitud : DECIMAL
+      direccion_mapa : VARCHAR
+    * estado : VARCHAR
+      orden_prioridad : INT
+    * fecha_reporte : DATETIME
+      fecha_alta : DATETIME
+}
+
+note top of incidencia
+    FK id_usuario_reporta
+        references USUARIO(id_usuario)
+
+    FK id_usuario_alta
+        references USUARIO(id_usuario)
+
+    FK id_categoria
+        references CATEGORIA(id_categoria)
+
+    FK id_incidencia_duplicada
+        references INCIDENCIA(id_incidencia)
+
+    id_usuario_alta admite NULL.
+    id_categoria admite NULL.
+    id_incidencia_duplicada admite NULL.
+    direccion_mapa admite NULL.
+    orden_prioridad admite NULL.
+    fecha_alta admite NULL.
+    estado IN (PENDIENTE, DADA_DE_ALTA,
+    DUPLICADA, EN_PROCESO, RESUELTA,
+    CERRADA).
+
+    id_usuario_reporta, explicacion_resumida,
+    explicacion_completa, foto_url, latitud
+    y longitud son NOT NULL.
+end note
+
+' --- ORDENACION_INCIDENCIA ---
+entity "ORDENACION_INCIDENCIA" as ordenacion {
+    * id_ordenacion : INT <<PK>>
+    --
+    * id_incidencia : INT <<FK>>
+    * id_usuario : INT <<FK>>
+    * orden_asignado : INT
+      comentario : TEXT
+    * fecha_ordenacion : DATETIME
+}
+
+note bottom of ordenacion
+    FK id_incidencia
+        references INCIDENCIA(id_incidencia)
+
+    FK id_usuario
+        references USUARIO(id_usuario)
+
+    comentario admite NULL.
+    orden_asignado y fecha_ordenacion
+    son NOT NULL.
+
+    comentario es obligatorio (NOT NULL)
+    cuando el usuario que ordena tiene
+    rol Administrador.
+end note
+
+' --- LLAMADA_TELEFONICA ---
+entity "LLAMADA_TELEFONICA" as llamada {
+    * id_llamada : INT <<PK>>
+    --
+      id_incidencia : INT <<FK>>
+    * id_empleado : INT <<FK>>
+    * telefono_origen : VARCHAR
+    * fecha_hora : DATETIME
+    * tipo_atencion : VARCHAR
+      dato_modificado_comprobado : TEXT
+      observaciones : TEXT
+}
+
+note bottom of llamada
+    FK id_incidencia
+        references INCIDENCIA(id_incidencia)
+
+    FK id_empleado
+        references USUARIO(id_usuario)
+
+    id_incidencia admite NULL.
+    dato_modificado_comprobado admite NULL.
+    observaciones admite NULL.
+    tipo_atencion IN (TECNICO, OPERADOR).
+
+    telefono_origen, fecha_hora y
+    tipo_atencion son NOT NULL.
+end note
+
+' --- INFORME_INCIDENCIA ---
+entity "INFORME_INCIDENCIA" as informe {
+    * id_informe : INT <<PK>>
+    --
+    * id_incidencia : INT <<FK>>
+    * id_tecnico : INT <<FK>>
+    * titulo : VARCHAR
+    * contenido : TEXT
+    * fecha_creacion : DATETIME
+}
+
+note bottom of informe
+    FK id_incidencia
+        references INCIDENCIA(id_incidencia)
+
+    FK id_tecnico
+        references USUARIO(id_usuario)
+
+    Todos los atributos son NOT NULL.
+
+    Solo puede ser redactado por usuarios
+    con rol 'Técnico'.
+end note
+
+' --- CORREO ---
+entity "CORREO" as correo {
+    * id_correo : INT <<PK>>
+    --
+    * id_incidencia : INT <<FK>>
+    * id_empleado : INT <<FK>>
+    * email_destinatario : VARCHAR
+    * asunto : VARCHAR
+    * cuerpo : TEXT
+    * fecha_envio : DATETIME
+    * estado_envio : VARCHAR
+}
+
+note bottom of correo
+    FK id_incidencia
+        references INCIDENCIA(id_incidencia)
+
+    FK id_empleado
+        references USUARIO(id_usuario)
+
+    Todos los atributos son NOT NULL.
+    estado_envio IN (ENVIADO, ERROR,
+    PENDIENTE).
+end note
+
+' --- NOTIFICACION ---
+entity "NOTIFICACION" as notificacion {
+    * id_notificacion : INT <<PK>>
+    --
+    * id_usuario : INT <<FK>>
+      id_incidencia : INT <<FK>>
+    * titulo : VARCHAR
+    * mensaje : TEXT
+    * tipo : VARCHAR
+    * fecha_creacion : DATETIME
+      fecha_lectura : DATETIME
+    * estado_lectura : VARCHAR
+}
+
+note bottom of notificacion
+    FK id_usuario
+        references USUARIO(id_usuario)
+
+    FK id_incidencia
+        references INCIDENCIA(id_incidencia)
+
+    id_incidencia admite NULL.
+    fecha_lectura admite NULL.
+    estado_lectura IN (LEIDA, NO_LEIDA).
+
+    titulo, mensaje, tipo, fecha_creacion
+    y estado_lectura son NOT NULL.
+end note
+
+' ==============================================================================
+' RELACIONES Y CARDINALIDADES
+' Fila superior: ROL - USUARIO_ROL - USUARIO - INCIDENCIA
+' Fila inferior: entidades de seguimiento y CATEGORIA, colgando de USUARIO e INCIDENCIA
+' ==============================================================================
+
+' Usuarios y Roles
+rol ||-right-o{ usuario_rol : "asignado a"
+usuario_rol }o-right-|| usuario : "posee"
+
+' Incidencias y Usuarios / Categorías
+usuario ||-right-o{ incidencia : "reporta (invitado)\nda de alta (empleado)"
+categoria ||-up-o{ incidencia : "clasifica"
+incidencia ||--o{ incidencia : "es duplicada de"
+
+' Procesos de Ordenación
+usuario ||-down-o{ ordenacion : "ordena"
+incidencia ||-down-o{ ordenacion : "recibe"
+
+' Atención y Seguimiento
+usuario ||-down-o{ llamada : "atiende"
+incidencia ||-down-o{ llamada : "vinculada a"
+usuario ||-down-o{ informe : "redacta"
+incidencia ||-down-o{ informe : "genera"
+
+' Notificaciones y Correo
+usuario ||-down-o{ correo : "envía"
+incidencia ||-down-o{ correo : "origina"
+usuario ||-down-o{ notificacion : "recibe"
+incidencia ||-down-o{ notificacion : "notifica"
+
+@enduml
