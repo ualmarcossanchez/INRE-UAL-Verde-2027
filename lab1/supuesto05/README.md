@@ -2,7 +2,7 @@
 
 En un sistema de gestión de incidencias, los técnicos y los operadores pueden dar de alta incidencias, para lo cual, de forma excepcional se enviará un correo (en esta operación participa un sistema de gestión de correo). Los técnicos también atienden llamadas telefónicas y realizan informes sobre las incidencias. Por su parte, los operadores atienden llamadas telefónicas, marcan incidencias como duplicadas y ordenan incidencias. La forma de atender llamadas de los técnicos y los operadores no es exactamente igual, pero tiene similitudes. De forma específica, cuando los técnicos atienden llamadas, comprueban datos de la incidencia en el sistema. Cuando los operadores atienden llamadas, introducen nuevos datos de la incidencia. Los administradores del sistema gestionan categorías de incidencias, consultan incidencias y ordenan incidencias. La ordenación por parte de los administradores conlleva la adición de un comentario. Los técnicos y los operadores también pueden consultar incidencias. La consulta de incidencias por parte técnicos, operadores y administradores puede conllevar, de forma excepcional, la edición de los datos de la incidencia. Los usuarios invitados también pueden consultar incidencias, pero sin la posible edición de los datos. Además, los invitados informan sobre posibles incidencias, se pueden registrar para ver notificaciones y pueden acceder a un listado del histórico de notificaciones. El informe de posibles incidencias conlleva el dar de alta la localización en un mapa, la incorporación de una explicación completa en formato textual y la subida de una foto.
 
-<img width="100%" alt="Diagrama de casos de uso" src="PEGAR_AQUI_LA_IMAGEN_Supuesto_05.png" />
+<img width="3017" height="1336" alt="Supuesto05_CasosDeUso" src="https://github.com/user-attachments/assets/0f4a84dd-8963-41c4-85c8-4c3d8b24a7c7" />
 
 ## Descripción de los actores
 
@@ -412,7 +412,7 @@ En un sistema de gestión de incidencias, los técnicos y los operadores pueden 
 
 ## Base de datos
 
-<img width="100%" alt="Diagrama entidad-relación" src="PEGAR_AQUI_LA_IMAGEN_Supuesto_05_Diagrama-Entidad-Relacion.png" />
+<img width="1944" height="1481" alt="Supuesto_05_Diagrama-Entidad-Relacion" src="https://github.com/user-attachments/assets/db18068a-1832-44b9-b086-3b100809e80b" />
 
 ## Tablas de Requisitos de información
 
